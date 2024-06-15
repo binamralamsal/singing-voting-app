@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MedalIcon, StarIcon, TrophyIcon, UploadIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -23,6 +24,7 @@ export default function Home() {
       <SiteHeader />
 
       <section className="px-1 bg-gray-900 text-white text-center py-24">
+        <Logo className="h-14 w-14 mx-auto" />
         <h1 className="text-3xl font-bold md:text-5xl">
           Welcome to the Competition
         </h1>

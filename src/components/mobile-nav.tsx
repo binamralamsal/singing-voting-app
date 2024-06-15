@@ -5,7 +5,7 @@ import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { TrophyIcon } from "lucide-react";
+import { Logo } from "./logo";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { navLinks } from "@/config/site";
@@ -59,8 +59,8 @@ export function MobileNav() {
             className="flex items-center"
             onOpenChange={setOpen}
           >
-            <TrophyIcon />
-            <span className="pl-2 font-bold">Competition</span>
+            <Logo className="h-9 w-9" />
+            <span className="pl-2 font-bold">Cosmo Acoustic Challenge 3.0</span>
           </MobileLink>
           <div className="flex flex-col space-y-3 pt-5">
             {navLinks.map((link) => (
