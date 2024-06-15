@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   title: "Cosmo Acoustic Challenge 3.0",
   description: "Online singing competition for all ages. Win cash prizes!",
   manifest: "/manifest.json",
-  favicon: "/favicon.ico",
 };
 
 export default function RootLayout({
