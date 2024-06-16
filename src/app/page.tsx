@@ -5,14 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { RegistrationForm } from "@/components/registration-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { UploadIcon } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
-import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 
 export const metadata: Metadata = {
