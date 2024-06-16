@@ -1,18 +1,19 @@
-import { SiteHeader } from "@/components/site-header";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { RegistrationForm } from "@/components/registration-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { MedalIcon, StarIcon, TrophyIcon, UploadIcon } from "lucide-react";
+import { UploadIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { Logo } from "@/components/logo";
+import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -20,21 +21,34 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div>
-      <SiteHeader />
-
-      <section className="px-1 bg-gray-900 text-white text-center py-24">
-        <Logo className="h-14 w-14 mx-auto" />
-        <h1 className="text-3xl font-bold md:text-5xl">
-          Welcome to the Competition
-        </h1>
-        <p className="text-lg font-light mt-2">
-          Showcase your skills and compete for amazing prizes. Join us today!
-        </p>
-        <Button asChild className="mt-6 inline-block" variant="secondary">
-          <Link href="/#register">Register Now</Link>
-        </Button>
+    <>
+      <section className="max-w-7xl mx-auto">
+        <Image
+          src="/banner.png"
+          width={1000}
+          height={500}
+          alt="Banner"
+          className="w-full h-[18rem] md:h-[30rem] object-cover"
+        />
       </section>
+      {/*
+      <section className="px-1 bg-primary text-white text-center py-24">
+        <div className="mx-auto max-w-4xl">
+          <Logo className="h-14 w-14 mx-auto" />
+          <h1 className="text-3xl font-bold md:text-5xl">
+            Welcome to the
+            <br />
+            Cosmo Acoustic Challenge 3.0
+          </h1>
+          <p className="text-lg font-light mt-2">
+            Sing Your Heart Out and Shine with Your Musical Talent!
+          </p>
+          <Button asChild className="mt-6 inline-block" variant="secondary">
+            <Link href="/#register">Register Now</Link>
+          </Button>
+        </div>
+      </section>
+         */}
 
       <section className="py-20 px-4" id="about">
         <div className="mx-auto max-w-4xl space-y-8">
@@ -50,25 +64,29 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold">Competition Overview</h3>
               <p className="text-gray-600 mt-4">
-                The competition is open to individuals and teams who want to
-                showcase their skills and creativity. Participants will be
-                tasked with solving real-world problems and presenting their
-                solutions.
+                The Cosmo Acoustic Challenge is a platform for aspiring singers
+                to showcase their talent. Submit a video of you singing with a
+                guitar, ukulele, or keyboard for a chance to be selected for
+                live auditions and a one-take video shoot. Finalists&apos;
+                videos will be posted on Musica Music&apos;s YouTube channel,
+                where audience engagement and votes will determine the winners.
               </p>
             </div>
             <div>
               <h3 className="text-2xl font-bold">Eligibility Criteria</h3>
               <p className="text-gray-600 mt-4">
-                To participate in the competition, you must be a resident of the
-                country and be at least 18 years old. There are no other
-                restrictions, and we encourage everyone to join.
+                To participate in the Cosmo Acoustic Challenge, challengers must
+                sing Nepali songs and can be accompanied by a guitar, ukulele,
+                or keyboard. The instrument player can be either the contestant
+                or a friend. Only 30 challengers will be selected for the final
+                video shoot.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4">
+      <section className="py-20 px-4" id="timeline">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold">Timeline</h2>
@@ -81,47 +99,86 @@ export default function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                June 1, 2023 - Event Announcement
+                22nd June 2024, Saturday - Registration Starts
               </div>
               <div className="text-gray-600">
-                The singing event is officially announced, inviting talented
-                vocalists to participate.
+                Registration for the Cosmo Acoustic Challenge 3.0 starts!
               </div>
             </div>
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                June 1, 2023 - Event Announcement
+                13th July 2024, Saturday - Video Submission Deadline
               </div>
               <div className="text-gray-600">
-                The singing event is officially announced, inviting talented
-                vocalists to participate.
+                Submit your singing video accompanied by a guitar, ukulele, or
+                keyboard by 12:00 PM.
               </div>
             </div>
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                June 1, 2023 - Event Announcement
+                17th July 2024, Wednesday - Announcement of Selected 50
+                Challengers
               </div>
               <div className="text-gray-600">
-                The singing event is officially announced, inviting talented
-                vocalists to participate.
+                The 50 selected challengers will be announced by 8:00 PM.
               </div>
             </div>
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                June 1, 2023 - Event Announcement
+                20th July 2024, Saturday - Live Audition
               </div>
               <div className="text-gray-600">
-                The singing event is officially announced, inviting talented
-                vocalists to participate.
+                Selected challengers will attend a live audition.
+              </div>
+            </div>
+            <div className="grid gap-1 text-sm relative">
+              <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
+              <div className="font-medium">
+                25th July 2024, Thursday - Announcement of Selected 30
+                Challengers
+              </div>
+              <div className="text-gray-600">
+                The final 30 challengers for the video shoot will be announced.
+              </div>
+            </div>
+            <div className="grid gap-1 text-sm relative">
+              <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
+              <div className="font-medium">
+                3rd August 2024, Saturday - One-Take Video Shoot
+              </div>
+              <div className="text-gray-600">
+                The final 30 challengers will perform for a one-take video
+                shoot.
+              </div>
+            </div>
+            <div className="grid gap-1 text-sm relative">
+              <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
+              <div className="font-medium">
+                10th August 2024, Saturday - Videos Go Live on Musica Music
+                YouTube Channel
+              </div>
+              <div className="text-gray-600">
+                The challengers&apos; videos will be published on the Musica
+                Music YouTube channel.
+              </div>
+            </div>
+            <div className="grid gap-1 text-sm relative">
+              <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
+              <div className="font-medium">
+                23rd August 2024, Friday - Voting Deadline
+              </div>
+              <div className="text-gray-600">
+                Voting and engagement on the videos will close at 12:00 PM.
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/*
       <section className="bg-gray-100 py-20 px-4" id="prizes">
         <div className="mx-auto max-w-4xl space-y-8">
           <div className="text-center">
@@ -151,6 +208,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+         */}
 
       <section className="py-20 px-4" id="register">
         <div className="mx-auto max-w-4xl space-y-8">
@@ -162,96 +220,8 @@ export default function Home() {
               Fill out the form below to submit your entry.
             </p>
           </div>
-          <form className="bg-white md:shadow-md rounded-md p-0 md:p-8 space-y-6">
-            <div>
-              <Label htmlFor="full-name">Full Name</Label>
-              <Input
-                id="full-name"
-                placeholder="Enter your full name"
-                type="text"
-              />
-            </div>
 
-            <div>
-              <Label htmlFor="contact-number">Contact Number</Label>
-              <Input
-                id="contact-number"
-                placeholder="Enter your contact number"
-                type="tel"
-              />
-            </div>
-            <div>
-              <Label htmlFor="alternate-number">Alternate Number</Label>
-              <Input
-                id="alternate-number"
-                placeholder="Enter your alternate number"
-                type="tel"
-              />
-            </div>
-            <div>
-              <Label htmlFor="date-of-birth">Date of Birth</Label>
-              <Input id="date-of-birth" type="date" />
-            </div>
-            <div>
-              <Label htmlFor="permanent-address">Permanent Address</Label>
-              <Input
-                id="permanent-address"
-                placeholder="Enter your permanent address"
-              />
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="Enter your email" type="email" />
-            </div>
-            <div>
-              <Label htmlFor="profession">Profession</Label>
-              <Input
-                id="profession"
-                placeholder="Enter your profession"
-                type="text"
-              />
-            </div>
-            <div>
-              <Label htmlFor="motivation">
-                What is your motivation behind joining the competition?
-              </Label>
-              <Textarea
-                className="min-h-[100px]"
-                id="motivation"
-                placeholder="Enter your motivation"
-              />
-            </div>
-            <div>
-              <Label htmlFor="submission">Upload your video</Label>
-              <div>
-                <div className="flex items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
-                    <UploadIcon className="mx-auto h-12 w-12 text-gray-400" />
-                    <div className="flex text-sm text-gray-600">
-                      <label
-                        className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
-                        htmlFor="submission"
-                      >
-                        <span>Upload a video</span>
-                        <Input
-                          className="sr-only"
-                          id="submission"
-                          name="submission"
-                          type="file"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      MP4, AVI, MOV up to 100MB
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Button className="w-full">Submit Entry</Button>
-          </form>
+          <RegistrationForm />
         </div>
       </section>
 
@@ -271,10 +241,11 @@ export default function Home() {
               className="bg-white shadow-md px-6 py-3"
             >
               <AccordionTrigger className="font-bold">
-                Is it accessible?
+                What is the registration fee?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
+                The registration fee is Rs.2000/-, payable only by the selected
+                30 challengers.
               </AccordionContent>
             </AccordionItem>
 
@@ -283,53 +254,93 @@ export default function Home() {
               className="bg-white shadow-md px-6 py-3"
             >
               <AccordionTrigger className="font-bold">
-                Is it accessible?
+                What are the judging criteria?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
+                Winners will be determined based on the highest number of votes,
+                likes, and views on YouTube, and there will also be an
+                Editor&apos;s Choice winner.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-3"
+              className="bg-white shadow-md px-6 py-3"
+            >
+              <AccordionTrigger className="font-bold">
+                Can I submit multiple entries?
+              </AccordionTrigger>
+              <AccordionContent>
+                No, each challenger can only enter once.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-4"
+              className="bg-white shadow-md px-6 py-3"
+            >
+              <AccordionTrigger className="font-bold">
+                Who records the final performance video?
+              </AccordionTrigger>
+              <AccordionContent>
+                The event organizing team will record the video at a designated
+                location.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-5"
+              className="bg-white shadow-md px-6 py-3"
+            >
+              <AccordionTrigger className="font-bold">
+                What is the duration limit for the performance?
+              </AccordionTrigger>
+              <AccordionContent>
+                Each performance should not exceed 5 minutes.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-6"
+              className="bg-white shadow-md px-6 py-3"
+            >
+              <AccordionTrigger className="font-bold">
+                Can I use paid promotion for my video?
+              </AccordionTrigger>
+              <AccordionContent>
+                No, paid promotion is not allowed, and using bots for votes will
+                result in disqualification.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-7"
+              className="bg-white shadow-md px-6 py-3"
+            >
+              <AccordionTrigger className="font-bold">
+                What are the prizes for winners?
+              </AccordionTrigger>
+              <AccordionContent>
+                Winners will receive a brand new Mantra Semi Acoustic Guitar, a
+                music deal, and various gift hampers.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-8"
+              className="bg-white shadow-md px-6 py-3"
+            >
+              <AccordionTrigger className="font-bold">
+                How will I know if I&apos;m selected?
+              </AccordionTrigger>
+              <AccordionContent>
+                Selected participants will be contacted via email or phone call
+                with further instructions.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
       </section>
-
-      <footer className="bg-gray-900 text-white py-8 px-4">
-        <div className="mx-auto max-w-4xl flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-          <div className="flex items-center gap-2">
-            <TrophyIcon className="h-6 w-6" />
-            <span className="text-xl font-bold">Competition</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link
-              className="text-gray-400 hover:text-white transition-colors"
-              href="#about"
-            >
-              About
-            </Link>
-            <Link
-              className="text-gray-400 hover:text-white transition-colors"
-              href="#prizes"
-            >
-              Prizes
-            </Link>
-            <Link
-              className="text-gray-400 hover:text-white transition-colors"
-              href="#register"
-            >
-              Register
-            </Link>
-            <Link
-              className="text-gray-400 hover:text-white transition-colors"
-              href="#faq"
-            >
-              FAQ
-            </Link>
-          </div>
-          <div className="text-gray-400 text-sm">
-            © 2024 Competition. All rights reserved.
-          </div>
-        </div>
-      </footer>
-    </div>
+    </>
   );
 }
