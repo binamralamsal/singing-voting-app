@@ -1,5 +1,7 @@
 "use server";
 
+import fs from "node:fs/promises";
+
 import { z } from "zod";
 import { profileSchema } from "@/validators/person.schema";
 import { Person } from "@/models/person";
@@ -23,4 +25,14 @@ export async function updateCurrentPerson(
   }
 
   return { success: true, message: "User Updated Successfully" };
+}
+
+export async function saveVideo(formData: FormData) {
+  const file = formData.get("file") as File;
+
+  if (!file || file.size === 0) return { error: "No file uploaded" };
+  const documentHash = formData.get("documentHash") as string;
+
+  const data = await file.arrayBuffer();
+  await fs.appendFile(`./public/${documentHash}.pdf`, Buffer.from(data));
 }
