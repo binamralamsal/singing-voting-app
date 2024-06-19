@@ -2,8 +2,9 @@ import { MainNav } from "./main-nav";
 import { MobileNav } from "./mobile-nav";
 import Link from "next/link";
 import { Logo } from "./logo";
+import { SideNav } from "./side-nav";
 
-export function SiteHeader() {
+export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex content-between h-14 max-w-screen-2xl items-center justify-between">
@@ -16,6 +17,8 @@ export function SiteHeader() {
 
         <MainNav />
         <MobileNav />
+
+        <SideNav />
       </div>
     </header>
   );

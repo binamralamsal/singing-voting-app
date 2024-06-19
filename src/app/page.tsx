@@ -4,27 +4,25 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { RegistrationForm } from "@/components/registration-form";
 import { Metadata } from "next";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Logo } from "@/components/logo";
+import { GoogleLogo } from "@/components/google-logo";
+import { FacebookLogo } from "@/components/facebook-logo";
+import { auth, signIn } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
-export default function Home() {
+export const dynamic = "force-dynamic"
+
+export default async function Home() {
+  const session = await auth();
+
   return (
     <>
-      <section className="max-w-7xl mx-auto">
-        <Image
-          src="/banner.png"
-          width={1000}
-          height={500}
-          alt="Banner"
-          className="w-full h-[18rem] md:h-[30rem] object-cover"
-        />
-      </section>
-      {/*
       <section className="px-1 bg-primary text-white text-center py-24">
         <div className="mx-auto max-w-4xl">
           <Logo className="h-14 w-14 mx-auto" />
@@ -41,7 +39,6 @@ export default function Home() {
           </Button>
         </div>
       </section>
-         */}
 
       <section className="py-20 px-4" id="about">
         <div className="mx-auto max-w-4xl space-y-8">
@@ -203,6 +200,7 @@ export default function Home() {
       </section>
          */}
 
+      {/*
       <section className="py-20 px-4" id="register">
         <div className="mx-auto max-w-4xl space-y-8">
           <div className="text-center">
@@ -217,6 +215,57 @@ export default function Home() {
           <RegistrationForm />
         </div>
       </section>
+         */}
+
+      <div className="py-12" id="register">
+        <div className="relative z-10">
+          <div className="container py-10 lg:py-16">
+            <div className="max-w-2xl text-center mx-auto">
+              <div className="mt-5 max-w-2xl">
+                <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                  Register
+                </h1>
+              </div>
+              <div className="mt-5 max-w-3xl">
+                <p className="text-xl text-gray-600">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Suscipit quis ex corrupti dolores quia cumque tempora amet
+                  enim autem et.
+                </p>
+              </div>
+              <div className="mt-8 gap-3 flex justify-center">
+                {!session?.user ? (
+                  <>
+                    <form
+                      action={async () => {
+                        "use server";
+                        await signIn("google");
+                      }}
+                    >
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="flex gap-1"
+                        type="submit"
+                      >
+                        <GoogleLogo className="h-5 w-5" /> Register with Google
+                      </Button>
+                    </form>
+                    <Button size="lg" variant="outline" className="flex gap-1">
+                      <FacebookLogo className="h-5 w-5" />
+                      Register with Facebook
+                    </Button>
+                  </>
+                ) : (
+                  <Button asChild>
+                      <Link href="/profile/upload">Upload your video</Link>
+                    </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <section className="bg-gray-100 py-20 px-4" id="faq">
         <div className="mx-auto max-w-4xl space-y-4">
