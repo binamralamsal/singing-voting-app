@@ -3,7 +3,6 @@ import { Person } from "@/models/person";
 import Queue, { Job } from "bull";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs/promises";
-import { revalidatePath } from "next/cache";
 
 const videoQueue = new Queue<VideoJobData>("video processing", {
   redis: {
@@ -41,7 +40,6 @@ videoQueue.process(async (job: Job<VideoJobData>) => {
               }
             );
 
-            revalidatePath("/profile/upload");
             resolve({ filePath: filePath });
           } catch (unlinkError) {
             reject({
@@ -50,6 +48,7 @@ videoQueue.process(async (job: Job<VideoJobData>) => {
           }
         })
         .on("error", (err) => {
+          console.log(err);
           reject({
             error: "Error occurred while uploading. Please try again.",
           });

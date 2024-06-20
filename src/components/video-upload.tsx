@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 export function BasicUploaderDemo({
   fileProcessing,
@@ -26,6 +27,7 @@ export function BasicUploaderDemo({
   fileURL: string;
 }) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   async function handleUpload(files: File[]) {
     try {
@@ -82,8 +84,10 @@ export function BasicUploaderDemo({
                   onClick={async () => {
                     toast.info("Deleting your video!");
 
-                    await removeVideo();
-                    toast.success("Your video has been deleted");
+                    startTransition(async () => {
+                      await removeVideo();
+                      toast.success("Your video has been deleted");
+                    });
                   }}
                 >
                   Delete
