@@ -2,16 +2,6 @@
 
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Checkbox } from "./ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +47,9 @@ export function RegistrationForm(props: {
     startTransition(async () => {
       await updateCurrentPerson(values);
 
-      toast.success("Your details updated successfully! You can now upload your video.")
+      toast.success(
+        "Your details updated successfully! You can now upload your video."
+      );
     });
   }
 
@@ -90,36 +82,9 @@ export function RegistrationForm(props: {
                 name="dateOfBirth"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date of Birth</FormLabel>
+                    <FormLabel>Date of birth</FormLabel>
                     <FormControl>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground",
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            initialFocus
-                            selected={new Date(field.value)}
-                            onSelect={(value) => {
-                              field.onChange(value?.toString());
-                            }}
-                          />
-                        </PopoverContent>
-                      </Popover>
+                      <Input type="date" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

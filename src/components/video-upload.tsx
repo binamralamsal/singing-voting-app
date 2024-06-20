@@ -1,12 +1,9 @@
 "use client";
 
 import { FileUploader } from "@/components/ui/file-uploader";
-import { removeVideo, saveVideo } from "@/services/person/actions";
+import { removeVideo } from "@/services/person/actions";
 import { Button } from "./ui/button";
-import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
-import Plyr from "plyr-react";
-import "plyr-react/plyr.css";
 import { CardContent, CardFooter } from "./ui/card";
 import { Skeleton } from "./ui/skeleton";
 import {
@@ -19,7 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { ClientOnly } from "./client-only";
+import { useRouter } from "next/navigation";
 
 export function BasicUploaderDemo({
   fileProcessing,
@@ -28,27 +25,38 @@ export function BasicUploaderDemo({
   fileProcessing: boolean;
   fileURL: string;
 }) {
-  const [state, formAction] = useActionState(saveVideo, null);
+  const router = useRouter();
 
-  useEffect(() => {
-    if (state) {
-      if (state.error) toast.error(state.error);
-      if (state.message) toast.success(state.message);
+  async function handleUpload(files: File[]) {
+    try {
+      const formData = new FormData();
+
+      formData.set("file", files[0]);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        return toast.error(
+          "Error occured while uploading video. Please try again."
+        );
+      }
+
+      router.refresh();
+    } catch (error) {
+      return toast.error(
+        "Error occured while uploading video. Please try again."
+      );
     }
-  }, [state]);
+  }
 
   if (fileURL) {
     return (
       <>
         <CardContent>
-          <ClientOnly>
-            <Plyr
-              source={{
-                type: "video",
-                sources: [{ src: fileURL }],
-              }}
-            ></Plyr>
-          </ClientOnly>
+          <video controls src={fileURL}></video>
         </CardContent>
         <CardFooter>
           <Dialog>
@@ -89,7 +97,7 @@ export function BasicUploaderDemo({
   }
 
   return (
-    <form action={formAction}>
+    <>
       <CardContent>
         <div className="space-y-6">
           {fileProcessing ? (
@@ -97,24 +105,36 @@ export function BasicUploaderDemo({
               Processing your video
             </Skeleton>
           ) : (
-            <FileUploader
-              maxFiles={1}
-              accept={{ "video/mp4": [".mp4", ".MP4"] }}
-            />
+            <>
+              <FileUploader
+                onUpload={handleUpload}
+                maxFiles={1}
+                accept={{
+                  "video/*": [
+                    ".mp4",
+                    ".webm",
+                    ".ogg",
+                    ".mov",
+                    ".avi",
+                    ".wmv",
+                    ".flv",
+                    ".mkv",
+                  ],
+                }}
+              />
+            </>
           )}
         </div>
       </CardContent>
 
       <CardFooter>
-        {fileProcessing ? (
+        {fileProcessing && (
           <p className="text-gray-600">
             It will take few min before video is ready to watched. Please
             refresh the page after sometime.
           </p>
-        ) : (
-          <Button>Upload Video</Button>
         )}
       </CardFooter>
-    </form>
+    </>
   );
 }

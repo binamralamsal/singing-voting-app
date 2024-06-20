@@ -39,7 +39,7 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @default undefined
    * @example onUpload={(files) => uploadFiles(files)}
    */
-  onUpload?: (files: File[]) => Promise<void>;
+  onUpload?: (files: File[]) => Promise<any>;
 
   /**
    * Progress of the uploaded files.
@@ -99,11 +99,11 @@ export function FileUploader(props: FileUploaderProps) {
     onValueChange,
     onUpload,
     progresses,
-    accept = { "image/*": [] },
     maxFiles = 1,
     multiple = false,
     disabled = false,
     className,
+    accept,
     ...dropzoneProps
   } = props;
 
@@ -188,10 +188,11 @@ export function FileUploader(props: FileUploaderProps) {
     <div className="relative flex flex-col gap-6 overflow-hidden">
       <Dropzone
         onDrop={onDrop}
-        accept={accept}
         maxFiles={maxFiles}
         multiple={maxFiles > 1 || multiple}
         disabled={isDisabled}
+        useFsAccessApi={false}
+        accept={accept}
       >
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
@@ -205,7 +206,7 @@ export function FileUploader(props: FileUploaderProps) {
             )}
             {...dropzoneProps}
           >
-            <input {...getInputProps()} name="file" />
+            <input {...getInputProps()} name="file" type="file" />
             {isDragActive ? (
               <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
                 <div className="rounded-full border border-dashed p-3">
