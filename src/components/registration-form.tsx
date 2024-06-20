@@ -57,7 +57,7 @@ export function RegistrationForm(props: {
     startTransition(async () => {
       await updateCurrentPerson(values);
 
-      toast.success("Your details updated successfully!")
+      toast.success("Your details updated successfully! You can now upload your video.")
     });
   }
 

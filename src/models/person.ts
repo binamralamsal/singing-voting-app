@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
+import { boolean } from "zod";
 
 export interface IPerson extends Document {
   email: string;
@@ -10,6 +11,7 @@ export interface IPerson extends Document {
   profession: string;
   motivationReason: string;
   fileURL?: string;
+  fileProcessing: boolean;
 }
 
 const personSchema: Schema<IPerson> = new Schema({
@@ -48,6 +50,10 @@ const personSchema: Schema<IPerson> = new Schema({
   fileURL: {
     type: String,
     default: "",
+  },
+  fileProcessing: {
+    type: Boolean,
+    default: false,
   },
 });
 

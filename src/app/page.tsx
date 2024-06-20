@@ -11,12 +11,14 @@ import { Logo } from "@/components/logo";
 import { GoogleLogo } from "@/components/google-logo";
 import { FacebookLogo } from "@/components/facebook-logo";
 import { auth, signIn } from "@/lib/auth";
+import { BasicUploaderDemo } from "@/components/video-upload";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const session = await auth();
@@ -35,7 +37,13 @@ export default async function Home() {
             Sing Your Heart Out and Shine with Your Musical Talent!
           </p>
           <Button asChild className="mt-6 inline-block" variant="secondary">
-            <Link href="/#register">Register Now</Link>
+            {session?.user ? (
+              <Button asChild>
+                <Link href="/profile/upload">Upload your video</Link>
+              </Button>
+            ) : (
+              <Link href="/#register">Register Now</Link>
+            )}
           </Button>
         </div>
       </section>
@@ -233,7 +241,7 @@ export default async function Home() {
                   enim autem et.
                 </p>
               </div>
-              <div className="mt-8 gap-3 flex justify-center">
+              <div className="mt-8 gap-3 flex flex-wrap justify-center">
                 {!session?.user ? (
                   <>
                     <form
@@ -241,25 +249,39 @@ export default async function Home() {
                         "use server";
                         await signIn("google");
                       }}
+                      className={cn("flex-1 md:flex-initial")}
                     >
                       <Button
                         size="lg"
                         variant="outline"
-                        className="flex gap-1"
+                        className="flex gap-1 w-full md:w-auto"
                         type="submit"
                       >
                         <GoogleLogo className="h-5 w-5" /> Register with Google
                       </Button>
                     </form>
-                    <Button size="lg" variant="outline" className="flex gap-1">
-                      <FacebookLogo className="h-5 w-5" />
-                      Register with Facebook
-                    </Button>
+
+                    <form
+                      action={async () => {
+                        "use server";
+                        await signIn("facebook");
+                      }}
+                      className={cn("flex-1 md:flex-initial")}
+                    >
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="flex gap-1 w-full md:w-auto"
+                      >
+                        <FacebookLogo className="h-5 w-5" />
+                        Register with Facebook
+                      </Button>
+                    </form>
                   </>
                 ) : (
                   <Button asChild>
-                      <Link href="/profile/upload">Upload your video</Link>
-                    </Button>
+                    <Link href="/profile/upload">Upload your video</Link>
+                  </Button>
                 )}
               </div>
             </div>

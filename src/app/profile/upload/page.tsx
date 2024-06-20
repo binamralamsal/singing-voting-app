@@ -33,12 +33,10 @@ export default async function UploadVideo() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <BasicUploaderDemo />
-      </CardContent>
-      <CardFooter className="border-t px-6 py-4">
-        <Button>Save</Button>
-      </CardFooter>
+      <BasicUploaderDemo
+        fileURL={person.fileURL as string}
+        fileProcessing={person.fileProcessing}
+      />
     </Card>
   );
 }
