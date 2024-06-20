@@ -24,7 +24,7 @@ videoQueue.process(async (job: Job<VideoJobData>) => {
   try {
     const results = await new Promise((resolve, reject) => {
       ffmpeg(uploadedFilePath)
-        .addOptions(["-crf 50", "-c:v libx264"])
+        .addOptions(["-crf 30", "-c:v libx264"])
         .on("end", async () => {
           try {
             await fs.unlink(uploadedFilePath);
