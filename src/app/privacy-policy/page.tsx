@@ -5,7 +5,7 @@ const PrivacyPolicy = () => {
     <div className="container mx-auto px-4 py-8">
       <main className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-        <p className="mb-4">Last updated: [Insert Date]</p>
+        <p className="mb-4">Last updated: 20th June, 2024</p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-4">Introduction</h2>
         <p className="mb-4">
