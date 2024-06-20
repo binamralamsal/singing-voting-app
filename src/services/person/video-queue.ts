@@ -36,7 +36,7 @@ videoQueue.process(async (job: Job<VideoJobData>) => {
               {
                 $set: {
                   fileProcessing: false,
-                  fileURL: `/uploads/${fileName}`,
+                  fileURL: `/api/public/uploads/${fileName}`,
                 },
               }
             );

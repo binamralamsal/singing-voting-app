@@ -48,7 +48,8 @@ export async function removeVideo() {
   );
 
   if (currentPerson.fileURL) {
-    await fs.unlink(`./public/${currentPerson.fileURL}`);
+    const filePath = currentPerson.fileURL.replace("/api", ".");
+    await fs.unlink(filePath);
   }
 
   revalidatePath("/profile/upload");
