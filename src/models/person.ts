@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
-import { boolean } from "zod";
 
 export interface IPerson extends Document {
   email: string;
@@ -12,6 +11,8 @@ export interface IPerson extends Document {
   motivationReason: string;
   fileURL?: string;
   fileProcessing: boolean;
+  profileCompleted: boolean;
+  password?: string;
 }
 
 const personSchema: Schema<IPerson> = new Schema({
@@ -25,11 +26,11 @@ const personSchema: Schema<IPerson> = new Schema({
   },
   dateOfBirth: {
     type: Date,
-    required: true,
+    default: null,
   },
   contactNumber: {
     type: String,
-    required: true,
+    default: "",
   },
   alternateContactNumber: {
     type: String,
@@ -37,15 +38,15 @@ const personSchema: Schema<IPerson> = new Schema({
   },
   address: {
     type: String,
-    required: true,
+    default: "",
   },
   profession: {
     type: String,
-    required: true,
+    default: "",
   },
   motivationReason: {
     type: String,
-    required: true,
+    default: "",
   },
   fileURL: {
     type: String,
@@ -54,6 +55,14 @@ const personSchema: Schema<IPerson> = new Schema({
   fileProcessing: {
     type: Boolean,
     default: false,
+  },
+  profileCompleted: {
+    type: Boolean,
+    default: false,
+  },
+  password: {
+    type: String,
+    default: null,
   },
 });
 

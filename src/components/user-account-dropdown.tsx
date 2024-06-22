@@ -10,8 +10,15 @@ import {
 import { Button } from "./ui/button";
 import { signOut } from "@/lib/auth";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export function UserAccountDropdown({ avatarURL }: { avatarURL: string }) {
+export function UserAccountDropdown({
+  avatarURL,
+  fallbackName,
+}: {
+  avatarURL: string;
+  fallbackName: string;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,13 +27,10 @@ export function UserAccountDropdown({ avatarURL }: { avatarURL: string }) {
           size="icon"
           className="overflow-hidden rounded-full"
         >
-          <Image
-            src={avatarURL}
-            width={36}
-            height={36}
-            alt="Avatar"
-            className="overflow-hidden rounded-full"
-          />
+          <Avatar>
+            <AvatarImage src={avatarURL} />
+            <AvatarFallback>{fallbackName}</AvatarFallback>
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

@@ -10,10 +10,18 @@ export async function SideNav() {
     <div>
       {!session?.user ? (
         <Button asChild>
-          <Link href="/#register">Register</Link>
+          <Link href="/register">Register</Link>
         </Button>
       ) : (
-        <UserAccountDropdown avatarURL={session.user?.image as string} />
+        <UserAccountDropdown
+          avatarURL={session.user.image as string}
+          fallbackName={
+            session.user.name
+              ?.split(" ")
+              .map((part) => part.charAt(0).toUpperCase())
+              .join("") as string
+          }
+        />
       )}
     </div>
   );

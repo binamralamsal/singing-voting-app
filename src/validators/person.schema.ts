@@ -37,3 +37,14 @@ export const clientProfileSchema = profileSchema.extend({
     message: "Please read and accept the terms and conditions",
   }),
 });
+
+export const registerSchema = z.object({
+  fullName: z.string().trim().min(1, "Enter your name"),
+  password: z.string().trim().min(8, "Password must be of 8 characters"),
+  email: z.string().trim().email(),
+});
+
+export const loginSchema = z.object({
+  password: z.string().trim().min(8, "Password must be of 8 characters"),
+  email: z.string().trim().email(),
+});

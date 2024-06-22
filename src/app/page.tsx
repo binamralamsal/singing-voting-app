@@ -42,7 +42,7 @@ export default async function Home() {
                 <Link href="/profile/upload">Upload your video</Link>
               </Button>
             ) : (
-              <Link href="/#register">Register Now</Link>
+              <Link href="/register">Register Now</Link>
             )}
           </Button>
         </div>
@@ -225,7 +225,7 @@ export default async function Home() {
       </section>
          */}
 
-      <div className="py-12" id="register">
+      {/* <div className="py-12" id="register">
         <div className="relative z-10">
           <div className="container py-10 lg:py-16">
             <div className="max-w-2xl text-center mx-auto">
@@ -287,7 +287,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <section className="bg-gray-100 py-20 px-4" id="faq">
         <div className="mx-auto max-w-4xl space-y-4">

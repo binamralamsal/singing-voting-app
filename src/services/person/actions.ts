@@ -3,14 +3,13 @@
 import fs from "node:fs/promises";
 
 import { z } from "zod";
-import { profileSchema } from "@/validators/person.schema";
+import { profileSchema, registerSchema } from "@/validators/person.schema";
 import { Person } from "@/models/person";
-import { auth } from "@/lib/auth";
+import { auth, signIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/db-connect";
 import { revalidatePath } from "next/cache";
-import crypto from "crypto";
-import { videoQueue } from "./video-queue";
+import { genSalt, hash } from "bcryptjs";
 
 export async function updateCurrentPerson(
   person: z.infer<typeof profileSchema>
@@ -22,9 +21,19 @@ export async function updateCurrentPerson(
   const dbPerson = await Person.findOne({ email: session.user.email });
 
   if (!dbPerson) {
-    await Person.create({ email: session.user.email, ...person });
+    await Person.create({
+      email: session.user.email,
+      ...person,
+      profileCompleted: true,
+    });
   } else {
-    await Person.updateOne({ email: session.user.email }, person);
+    await Person.updateOne(
+      { email: session.user.email },
+      {
+        profileCompleted: true,
+        ...person,
+      }
+    );
   }
 
   revalidatePath("/profile");
@@ -39,7 +48,7 @@ export async function removeVideo() {
   await dbConnect();
 
   const currentPerson = await Person.findOne({ email: session.user.email });
-  if (!currentPerson) return redirect("/profile");
+  if (!currentPerson?.profileCompleted) return redirect("/profile");
 
   await Person.updateOne(
     { email: currentPerson.email },
@@ -54,4 +63,45 @@ export async function removeVideo() {
   revalidatePath("/profile/upload");
 
   return { message: "Video removed successfully!" };
+}
+
+export async function signInUser(person: { email: string; password: string }) {
+  try {
+    const result = await signIn("credentials", { ...person, redirect: false });
+    return { message: "Signed in Successfully" };
+  } catch (err) {
+    return { error: "Invalid email or password" };
+  }
+}
+
+export async function registerUser(personDetails: {
+  email: string;
+  password: string;
+  fullName: string;
+}) {
+  const parsedBody = registerSchema.safeParse(personDetails);
+
+  if (!parsedBody.success) {
+    return {
+      status: "ERROR",
+      message: "Validation Error Occurred",
+      error: parsedBody.error,
+    };
+  }
+
+  const { data } = parsedBody;
+
+  await dbConnect();
+  const person = await Person.findOne({ email: data.email });
+
+  if (person) return { status: "ERROR", message: "Person already exists!" };
+
+  const salt = await genSalt(12);
+  data.password = await hash(data.password, salt);
+  await Person.create(data);
+
+  return {
+    message: "User registered successfully",
+    status: "OK",
+  };
 }

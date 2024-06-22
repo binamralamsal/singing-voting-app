@@ -3,7 +3,7 @@ import dbConnect from "@/lib/db-connect";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-export async function getCurrentPerson(){
+export async function getCurrentPerson() {
   const session = await auth();
   if (!session) return redirect("/");
 
@@ -15,7 +15,7 @@ export async function getCurrentPerson(){
     address: user?.address || "",
     motivationReason: user?.motivationReason || "",
     alternateContactNumber: user?.alternateContactNumber || "",
-    dateOfBirth: user?.dateOfBirth.toString() || "",
+    dateOfBirth: user?.dateOfBirth?.toString() || "",
     contactNumber: user?.contactNumber || "",
     profession: user?.profession || "",
   };

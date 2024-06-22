@@ -23,7 +23,7 @@ export default async function UploadVideo() {
   await dbConnect();
   const person = await Person.findOne({ email: session.user.email });
 
-  if (!person) return redirect("/profile");
+  if (!person?.profileCompleted) return redirect("/profile");
 
   return (
     <Card>
