@@ -41,9 +41,12 @@ export function LoginForm() {
 
   const [isPending, startTransition] = useTransition();
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
+  function onSubmit(values: z.infer<typeof loginSchema>) {
     startTransition(async () => {
-      const data = await signInUser(values);
+      const data = await signInUser({
+        email: values.email,
+        password: values.password,
+      });
       if (data.message) {
         toast.success("Logged in Successfully!");
 
