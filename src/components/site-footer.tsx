@@ -12,27 +12,27 @@ export function SiteFooter() {
         <div className="flex items-center gap-4">
           <Link
             className="text-gray-400 hover:text-white transition-colors"
-            href="#about"
+            href="/#about"
           >
             About
           </Link>
           <Link
             className="text-gray-400 hover:text-white transition-colors"
-            href="#prizes"
-          >
-            Prizes
-          </Link>
-          <Link
-            className="text-gray-400 hover:text-white transition-colors"
-            href="#register"
+            href="/#register"
           >
             Register
           </Link>
           <Link
             className="text-gray-400 hover:text-white transition-colors"
-            href="#faq"
+            href="/#faq"
           >
             FAQ
+          </Link>
+          <Link
+            className="text-gray-400 hover:text-white transition-colors"
+            href="/privacy-policy"
+          >
+            Privacy Policy
           </Link>
         </div>
         <div className="text-gray-400 text-sm">
