@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "np.com.cosmoconcepts.twa",
+      "sha256_cert_fingerprints": [
+        "9F:14:1E:63:D6:E9:7E:A8:49:43:A8:38:2E:53:B6:73:FF:06:CC:D1:0F:E5:60:BB:D0:69:94:77:8B:E6:DE:CA"
+      ]
+    }
+  }
+]
