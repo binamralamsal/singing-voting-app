@@ -33,7 +33,7 @@ export default function DeleteAccountForm() {
             <textarea
               id="reason"
               name="reason"
-              rows="4"
+              rows={4}
               required
               className="w-full px-4 py-2 mt-1 text-gray-800 border border-gray-300 rounded-md resize-none focus:outline-none focus:border-blue-500"
             ></textarea>
