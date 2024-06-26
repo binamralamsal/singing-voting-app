@@ -25,9 +25,9 @@ export function UserAccountDropdown({
         <Button
           variant="outline"
           size="icon"
-          className="overflow-hidden rounded-full"
+          className="overflow-hidden rounded-full h-8 w-8"
         >
-          <Avatar>
+          <Avatar className="h-full w-full">
             <AvatarImage src={avatarURL} />
             <AvatarFallback>{fallbackName}</AvatarFallback>
           </Avatar>

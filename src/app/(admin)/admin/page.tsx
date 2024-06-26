@@ -38,6 +38,15 @@ import { revalidatePath } from "next/cache";
 import { cn } from "@/lib/utils";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -91,7 +100,7 @@ export default async function AdminDashboard({
       </div>
 
       <div>
-        <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
+        <div className="inline-flex flex-wrap items-center  rounded-md bg-muted p-1 text-muted-foreground">
           <Link
             href={`/admin`}
             className={cn(
@@ -134,10 +143,7 @@ export default async function AdminDashboard({
       </div>
 
       {participants.length === 0 ? (
-        <div
-          className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-          x-chunk="dashboard-02-chunk-1"
-        >
+        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-1 text-center">
             <h3 className="text-2xl font-bold tracking-tight">
               No Participants
@@ -243,14 +249,41 @@ function ParticipantsTable({
                   {participant.profession}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {participant.fileProcessing ? (
+                  {participant.fileProcessing || !participant.fileURL ? (
                     <Badge variant="outline">Processing</Badge>
                   ) : (
-                    <Button asChild variant="outline" size="sm">
-                      <a href={participant.fileURL} target="_blank" download>
-                        Download
-                      </a>
-                    </Button>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button size="sm" variant="outline">
+                          Watch
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader className="gap-3">
+                          <DialogTitle>
+                            {participant.fullName}&apos;s Video
+                          </DialogTitle>
+                          <DialogDescription>
+                            <video
+                              src={participant.fileURL}
+                              controls
+                              className="aspect-video"
+                            ></video>
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="sm:justify-start">
+                          <Button type="button" variant="outline" asChild>
+                            <Link
+                              href={participant.fileURL}
+                              target="_blank"
+                              download
+                            >
+                              Download
+                            </Link>
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   )}
                 </TableCell>
                 <TableCell>
@@ -348,7 +381,7 @@ function ParticipantsTable({
       <CardFooter className="flex-col">
         {totalPages > 1 && (
           <Pagination>
-            <PaginationContent>
+            <PaginationContent className="flex-wrap">
               {currentPage > 1 && (
                 <PaginationItem>
                   <PaginationPrevious

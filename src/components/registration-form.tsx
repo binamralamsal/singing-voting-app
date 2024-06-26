@@ -69,7 +69,9 @@ export function RegistrationForm(props: {
                 name="fullName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>
+                      Full Name <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="John Smith" {...field} />
                     </FormControl>
@@ -82,7 +84,9 @@ export function RegistrationForm(props: {
                 name="dateOfBirth"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date of birth</FormLabel>
+                    <FormLabel>
+                      Date of birth <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input type="date" {...field} />
                     </FormControl>
@@ -98,7 +102,9 @@ export function RegistrationForm(props: {
                 name="contactNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Contact Number</FormLabel>
+                    <FormLabel>
+                      Contact Number <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="98XXXXXXXX" {...field} />
                     </FormControl>
@@ -127,7 +133,9 @@ export function RegistrationForm(props: {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Permanent Address</FormLabel>
+                    <FormLabel>
+                      Permanent Address <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Kathmandu" {...field} />
                     </FormControl>
@@ -140,7 +148,9 @@ export function RegistrationForm(props: {
                 name="profession"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Profession</FormLabel>
+                    <FormLabel>
+                      Profession <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Student" {...field} />
                     </FormControl>
@@ -155,7 +165,8 @@ export function RegistrationForm(props: {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    What is your motivation behind joining the competition?
+                    What is your motivation behind joining the competition?{" "}
+                    <span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
                     <Textarea
