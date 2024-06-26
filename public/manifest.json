@@ -3,9 +3,7 @@
   "short_name": "CAC 3.0",
   "theme_color": "#15103E",
   "background_color": "#E6B220",
-  "display_override": [
-    "window-controls-overlay"
-],
+  "display_override": ["window-controls-overlay"],
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
@@ -15,6 +13,11 @@
       "src": "/logo.svg",
       "sizes": "any",
       "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "splash_pages": null
