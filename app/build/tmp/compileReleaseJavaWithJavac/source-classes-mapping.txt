@@ -1,0 +1,8 @@
+np/com/cosmoconcepts/twa/DelegationService.java
+ np.com.cosmoconcepts.twa.DelegationService
+np/com/cosmoconcepts/twa/Application.java
+ np.com.cosmoconcepts.twa.Application
+np/com/cosmoconcepts/twa/LauncherActivity.java
+ np.com.cosmoconcepts.twa.LauncherActivity
+np/com/cosmoconcepts/twa/BuildConfig.java
+ np.com.cosmoconcepts.twa.BuildConfig
