@@ -3,6 +3,9 @@
   "short_name": "CAC 3.0",
   "theme_color": "#15103E",
   "background_color": "#E6B220",
+  "display_override": [
+    "window-controls-overlay"
+],
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
