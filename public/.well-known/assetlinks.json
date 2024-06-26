@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "np.com.cosmoconcepts.twa",
       "sha256_cert_fingerprints": [
-        "9F:14:1E:63:D6:E9:7E:A8:49:43:A8:38:2E:53:B6:73:FF:06:CC:D1:0F:E5:60:BB:D0:69:94:77:8B:E6:DE:CA"
+        "9F:14:1E:63:D6:E9:7E:A8:49:43:A8:38:2E:53:B6:73:FF:06:CC:D1:0F:E5:60:BB:D0:69:94:77:8B:E6:DE:CA",
+        "AD:9C:7F:05:C8:2D:AD:1C:DA:41:EC:25:89:D8:9B:D4:9E:92:AA:96:05:C0:D5:C9:80:07:5C:4A:0E:72:2D:98"
       ]
     }
   }
