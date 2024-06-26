@@ -39,6 +39,8 @@ import { cn } from "@/lib/utils";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard({
   searchParams,
 }: {
