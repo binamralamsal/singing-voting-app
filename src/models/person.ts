@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Document, Schema, Model, CallbackError } from "mongoose";
 
 export interface IPerson extends Document {
   email: string;
@@ -15,9 +15,11 @@ export interface IPerson extends Document {
   password?: string;
   role: "participant" | "reviewer" | "admin";
   status: "pending" | "approved" | "spam";
+  personId: number;
 }
 
 const personSchema: Schema<IPerson> = new Schema({
+  personId: { type: Number, unique: true },
   email: {
     type: String,
     required: true,
@@ -75,7 +77,31 @@ const personSchema: Schema<IPerson> = new Schema({
   status: {
     type: String,
     enum: ["pending", "approved", "spam"],
-    default: "pending"
+    default: "pending",
+  },
+});
+
+const CounterSchema = new Schema({
+  _id: { type: String, required: true },
+  seq: { type: Number, default: 0 },
+});
+
+const Counter =
+  mongoose.models.Counter || mongoose.model("Counter", CounterSchema);
+
+personSchema.pre("save", async function (next) {
+  try {
+    const doc = this;
+    const counter = await Counter.findOneAndUpdate(
+      { _id: "personId" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    ).exec();
+
+    doc.personId = counter.seq;
+    next();
+  } catch (error) {
+    next(error as CallbackError);
   }
 });
 

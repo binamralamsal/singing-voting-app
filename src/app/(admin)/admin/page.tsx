@@ -71,14 +71,16 @@ export default async function AdminDashboard({
       activeTab = searchParams.tab;
     }
   }
-  const page = Number(searchParams.page) || 1; // Default to page 1 if not specified or invalid
-  const perPage = 5; // Number of participants per page
+  const currentPage = Number(searchParams.page) || 1;
+  const perPage = 15;
 
-  const skip = (page - 1) * perPage;
+  const skip = (currentPage - 1) * perPage;
 
   const participants = await Person.find(participantsFilter)
     .skip(skip)
     .limit(perPage);
+  const totalParticipants = await Person.countDocuments(participantsFilter);
+  const totalPages = Math.ceil(totalParticipants / perPage);
 
   return (
     <>
@@ -89,10 +91,7 @@ export default async function AdminDashboard({
       <div>
         <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
           <Link
-            href={`/admin?${new URLSearchParams({
-              ...searchParams,
-              tab: "all",
-            }).toString()}`}
+            href={`/admin`}
             className={cn(
               "rounded-sm px-3 py-1.5 text-sm font-medium",
               activeTab === "all" && "bg-background text-foreground shadow-sm"
@@ -101,10 +100,7 @@ export default async function AdminDashboard({
             All
           </Link>
           <Link
-            href={`/admin?${new URLSearchParams({
-              ...searchParams,
-              tab: "pending",
-            }).toString()}`}
+            href={`/admin?tab=pending`}
             className={cn(
               "rounded-sm px-3 py-1.5 text-sm font-medium",
               activeTab === "pending" &&
@@ -114,10 +110,7 @@ export default async function AdminDashboard({
             Pending
           </Link>
           <Link
-            href={`/admin?${new URLSearchParams({
-              ...searchParams,
-              tab: "approved",
-            }).toString()}`}
+            href={`/admin?tab=approved`}
             className={cn(
               "rounded-sm px-3 py-1.5 text-sm font-medium",
               activeTab === "approved" &&
@@ -127,10 +120,7 @@ export default async function AdminDashboard({
             Approved
           </Link>
           <Link
-            href={`/admin?${new URLSearchParams({
-              ...searchParams,
-              tab: "spam",
-            }).toString()}`}
+            href={`/admin?tab=spam`}
             className={cn(
               "rounded-sm px-3 py-1.5 text-sm font-medium",
               activeTab === "spam" && "bg-background text-foreground shadow-sm"
@@ -156,7 +146,14 @@ export default async function AdminDashboard({
           </div>
         </div>
       ) : (
-        <ParticipantsTable participants={participants} />
+        <ParticipantsTable
+          participants={participants}
+          perPage={perPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          totalParticipants={totalParticipants}
+        />
       )}
     </>
   );
@@ -164,24 +161,35 @@ export default async function AdminDashboard({
 
 function ParticipantsTable({
   participants,
+  currentPage,
+  perPage,
+  totalPages,
+  totalParticipants,
+  searchParams,
 }: {
   participants: (Document<unknown, {}, IPerson> &
     IPerson &
     Required<{
       _id: unknown;
     }>)[];
+  perPage: number;
+  currentPage: number;
+  totalPages: number;
+  searchParams: Record<string, string>;
+  totalParticipants: number;
 }) {
+  const paginationRange = generatePagination(currentPage, totalPages);
   return (
     <Card>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Code</TableHead>
               <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Date of Birth
-              </TableHead>
+              <TableHead className="hidden md:table-cell">DOB </TableHead>
               <TableHead className="hidden md:table-cell">
                 Contact Number
               </TableHead>
@@ -196,8 +204,12 @@ function ParticipantsTable({
           <TableBody>
             {participants.map((participant) => (
               <TableRow key={(participant._id as string).toString() as string}>
+                <TableCell>CAC_{participant.personId}</TableCell>
                 <TableCell className="font-medium">
-                  {participant.fullName} ({participant.email})
+                  {participant.email}
+                </TableCell>
+                <TableCell className="font-medium">
+                  {participant.email}
                 </TableCell>
                 <TableCell>
                   <Badge
@@ -332,28 +344,98 @@ function ParticipantsTable({
         </Table>
       </CardContent>
       <CardFooter className="flex-col">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        {totalPages > 1 && (
+          <Pagination>
+            <PaginationContent>
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious
+                    href={`/admin?${new URLSearchParams({
+                      ...searchParams,
+                      page: String(currentPage - 1),
+                    }).toString()}`}
+                  />
+                </PaginationItem>
+              )}
+              {paginationRange.map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    href={`/admin?${new URLSearchParams({
+                      ...searchParams,
+                      page: String(page),
+                    }).toString()}`}
+                    isActive={page === currentPage}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              {!paginationRange.includes(totalPages) && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+              {currentPage < totalPages && (
+                <PaginationItem>
+                  <PaginationNext
+                    href={`/admin?${new URLSearchParams({
+                      ...searchParams,
+                      page: String(currentPage + 1),
+                    }).toString()}`}
+                  />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        )}
         <div className="text-xs text-muted-foreground mt-4">
-          Showing <strong>1-10</strong> of <strong>32</strong> products
+          Showing{" "}
+          <strong>{`${(currentPage - 1) * perPage + 1}-${Math.min(
+            currentPage * perPage,
+            totalPages * perPage
+          )} `}</strong>
+          of <strong>{totalParticipants}</strong> participants.
         </div>
       </CardFooter>
     </Card>
   );
+}
+
+function generatePagination(
+  currentPage: number,
+  totalPages: number,
+  maxPages = 10
+) {
+  let startPage, endPage;
+
+  if (maxPages > totalPages) {
+    maxPages = totalPages;
+  }
+
+  const halfWindow = Math.floor(maxPages / 2);
+
+  if (currentPage <= halfWindow) {
+    startPage = 1;
+    endPage = Math.min(totalPages, maxPages);
+  } else if (currentPage > totalPages - halfWindow) {
+    startPage = totalPages - maxPages + 1;
+    endPage = totalPages;
+  } else {
+    startPage = currentPage - halfWindow;
+    endPage = currentPage + halfWindow - 1;
+  }
+
+  if (startPage < 1) {
+    startPage = 1;
+  }
+  if (endPage > totalPages) {
+    endPage = totalPages;
+  }
+
+  const pages = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  return pages;
 }
