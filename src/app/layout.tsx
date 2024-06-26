@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,10 +21,8 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
         <Toaster />
-        <SiteHeader />
         <NextTopLoader />
         {children}
-        <SiteFooter />
       </body>
     </html>
   );

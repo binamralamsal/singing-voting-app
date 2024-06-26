@@ -70,7 +70,10 @@ export async function signInUser(person: { email: string; password: string }) {
     const result = await signIn("credentials", { ...person, redirect: false });
     return { message: "Signed in Successfully" };
   } catch (err) {
-    return { error: "Invalid email or password" };
+    return {
+      error:
+        "Invalid email or password. If you used google login then please use that instead.",
+    };
   }
 }
 
@@ -94,7 +97,12 @@ export async function registerUser(personDetails: {
   await dbConnect();
   const person = await Person.findOne({ email: data.email });
 
-  if (person) return { status: "ERROR", message: "Person already exists!" };
+  if (person)
+    return {
+      status: "ERROR",
+      message:
+        "User with the email address already exists. If you used google login then please login with google!",
+    };
 
   const salt = await genSalt(12);
   data.password = await hash(data.password, salt);
@@ -104,4 +112,8 @@ export async function registerUser(personDetails: {
     message: "User registered successfully",
     status: "OK",
   };
+}
+
+export async function registerWithGoogle() {
+  return await signIn("google");
 }

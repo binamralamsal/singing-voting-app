@@ -13,12 +13,15 @@ export interface IPerson extends Document {
   fileProcessing: boolean;
   profileCompleted: boolean;
   password?: string;
+  role: "participant" | "reviewer" | "admin";
+  status: "pending" | "approved" | "spam";
 }
 
 const personSchema: Schema<IPerson> = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   fullName: {
     type: String,
@@ -64,6 +67,16 @@ const personSchema: Schema<IPerson> = new Schema({
     type: String,
     default: null,
   },
+  role: {
+    type: String,
+    enum: ["reviewer", "participant", "admin"],
+    default: "participant",
+  },
+  status: {
+    type: String,
+    enum: ["pending", "approved", "spam"],
+    default: "pending"
+  }
 });
 
 export const Person: Model<IPerson> =

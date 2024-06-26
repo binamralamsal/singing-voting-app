@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -24,9 +25,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { signInUser } from "@/services/person/actions";
+import { registerWithGoogle, signInUser } from "@/services/person/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { GoogleLogo } from "./google-logo";
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -60,7 +62,7 @@ export function LoginForm() {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <Card className="mx-auto">
+      <Card className="mx-auto max-w-[350px]">
         <CardHeader>
           <CardTitle className="text-xl">Login</CardTitle>
           <CardDescription>
@@ -115,6 +117,18 @@ export function LoginForm() {
             </form>
           </Form>
         </CardContent>
+        <CardFooter className="border-t px-6 py-4">
+          <form action={registerWithGoogle} className="w-full">
+            <Button
+              size="lg"
+              variant="outline"
+              className="flex gap-1 w-full"
+              type="submit"
+            >
+              <GoogleLogo className="h-5 w-5" /> Login with Google
+            </Button>
+          </form>
+        </CardFooter>
       </Card>
     </div>
   );

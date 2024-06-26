@@ -42,6 +42,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async signIn(data) {
+      if (data.account?.provider === "google" && data.user.email) {
+        await dbConnect();
+        const person = await Person.findOne({ email: data.user.email });
+
+        if (!person) {
+          await Person.create({
+            email: data.user.email,
+            fullName: data.user.name,
+          });
+        }
+      }
+      return true;
+    },
+  },
   pages: {
     signIn: "/sign-in",
     newUser: "/register",
