@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
+import axios from "axios";
 
 export function BasicUploaderDemo({
   fileProcessing,
@@ -28,23 +29,31 @@ export function BasicUploaderDemo({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [progress, setProgress] = useState<Record<string, number>>({});
 
   async function handleUpload(files: File[]) {
     try {
+      if (!files[0])
+        return toast.error(
+          "Error occured while uploading video. Please try again."
+        );
+
       const formData = new FormData();
 
       formData.set("file", files[0]);
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
+      await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (event) => {
+          console.log(event, event.estimated);
+          if (event.lengthComputable) {
+            const percentComplete = (event.progress || 0.5) * 100;
+            setProgress({ [files[0].name]: percentComplete });
+          }
+        },
       });
-
-      if (!response.ok) {
-        return toast.error(
-          "Error occured while uploading video. Please try again."
-        );
-      }
 
       router.refresh();
     } catch (error) {
@@ -125,6 +134,7 @@ export function BasicUploaderDemo({
                     ".mkv",
                   ],
                 }}
+                progresses={progress}
               />
             </>
           )}
