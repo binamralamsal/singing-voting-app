@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { Cross2Icon, UploadIcon } from "@radix-ui/react-icons";
 import Dropzone, {
   type DropzoneProps,
@@ -50,6 +49,14 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
   progresses?: Record<string, number>;
 
   /**
+   * Estimated seconds remaining.
+   * @type Record<string, number> | undefined
+   * @default undefined
+   * @example progresses={{ "file1.png": 30 }}
+   */
+  estimatedSeconds?: Record<string, number>;
+
+  /**
    * Accepted file types for the uploader.
    * @type { [key: string]: string[]}
    * @default
@@ -88,12 +95,6 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
 export function FileUploader(props: FileUploaderProps) {
   const { pending } = useFormStatus();
 
-  React.useEffect(() => {
-    if (pending) {
-      toast.info("We are uploading video. Please wait");
-    }
-  }, [pending]);
-
   const {
     value: valueProp,
     onValueChange,
@@ -104,6 +105,7 @@ export function FileUploader(props: FileUploaderProps) {
     disabled = false,
     className,
     accept,
+    estimatedSeconds,
     ...dropzoneProps
   } = props;
 
@@ -250,6 +252,7 @@ export function FileUploader(props: FileUploaderProps) {
                 file={file}
                 onRemove={() => onRemove(index)}
                 progress={progresses?.[file.name]}
+                estimatedSeconds={estimatedSeconds?.[file.name]}
               />
             ))}
           </div>
@@ -263,9 +266,15 @@ interface FileCardProps {
   file: File;
   onRemove: () => void;
   progress?: number;
+  estimatedSeconds?: number;
 }
 
-function FileCard({ file, progress, onRemove }: FileCardProps) {
+function FileCard({
+  file,
+  progress,
+  onRemove,
+  estimatedSeconds,
+}: FileCardProps) {
   return (
     <div className="relative flex items-center space-x-4">
       <div className="flex flex-1 space-x-4">
@@ -287,6 +296,13 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
             </p>
           </div>
           {progress ? <Progress value={progress} /> : null}
+          {estimatedSeconds !== 0 && estimatedSeconds && (
+            <div>
+              <p className="text-gray-600">
+                Estimated {formatDuration(estimatedSeconds)} remaining
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-2">
@@ -307,4 +323,28 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
 
 function isFileWithPreview(file: File): file is File & { preview: string } {
   return "preview" in file && typeof file.preview === "string";
+}
+
+function formatDuration(durationInSeconds: number) {
+  const seconds = Math.floor(durationInSeconds % 60);
+  const minutes = Math.floor((durationInSeconds / 60) % 60);
+  const hours = Math.floor((durationInSeconds / (60 * 60)) % 24);
+  const days = Math.floor(durationInSeconds / (60 * 60 * 24));
+
+  const parts = [];
+
+  if (days > 0) {
+    parts.push(`${days} day${days > 1 ? "s" : ""}`);
+  }
+  if (hours > 0) {
+    parts.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+  }
+  if (minutes > 0) {
+    parts.push(`${minutes} minute${minutes > 1 ? "s" : ""}`);
+  }
+  if (seconds > 0 || parts.length === 0) {
+    parts.push(`${seconds} second${seconds > 1 ? "s" : ""}`);
+  }
+
+  return parts.join(", ");
 }

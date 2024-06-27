@@ -30,6 +30,9 @@ export function BasicUploaderDemo({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [progress, setProgress] = useState<Record<string, number>>({});
+  const [estimatedSeconds, setEstimatedSeconds] = useState<
+    Record<string, number>
+  >({});
 
   async function handleUpload(files: File[]) {
     try {
@@ -47,9 +50,9 @@ export function BasicUploaderDemo({
           "Content-Type": "multipart/form-data",
         },
         onUploadProgress: (event) => {
-          console.log(event, event.estimated);
           if (event.lengthComputable) {
             const percentComplete = (event.progress || 0.5) * 100;
+            setEstimatedSeconds({ [files[0].name]: event.estimated as number });
             setProgress({ [files[0].name]: percentComplete });
           }
         },
@@ -135,6 +138,7 @@ export function BasicUploaderDemo({
                   ],
                 }}
                 progresses={progress}
+                estimatedSeconds={estimatedSeconds}
               />
             </>
           )}
