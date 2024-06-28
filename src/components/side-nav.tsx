@@ -2,15 +2,16 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { UserAccountDropdown } from "./user-account-dropdown";
+import { getLoggedInUserDetail } from "@/services/person/get-current-person";
 
 export async function SideNav() {
-  const session = await auth();
+  const { session, user } = await getLoggedInUserDetail();
 
   return (
     <div>
       {!session?.user ? (
         <Button asChild>
-          <Link href="/register">Register</Link>
+          <Link href="/#register">Register</Link>
         </Button>
       ) : (
         <UserAccountDropdown
@@ -21,6 +22,7 @@ export async function SideNav() {
               .map((part) => part.charAt(0).toUpperCase())
               .join("") as string
           }
+          fileURL={user?.fileURL}
         />
       )}
     </div>

@@ -117,9 +117,11 @@ export function BasicUploaderDemo({
       <CardContent>
         <div className="space-y-6">
           {fileProcessing ? (
-            <Skeleton className="w-full aspect-video flex justify-center items-center">
-              Processing your video
-            </Skeleton>
+            <p className="text-gray-600">
+              Thank you for submitting your video. We are processing your video.
+              We will contact you via your mail or phone number if you are
+              selected.
+            </p>
           ) : (
             <>
               <FileUploader
@@ -144,15 +146,6 @@ export function BasicUploaderDemo({
           )}
         </div>
       </CardContent>
-
-      <CardFooter>
-        {fileProcessing && (
-          <p className="text-gray-600">
-            It will take few min before video is ready to watched. Please
-            refresh the page after sometime.
-          </p>
-        )}
-      </CardFooter>
     </>
   );
 }

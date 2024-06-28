@@ -28,6 +28,7 @@ import { z } from "zod";
 import { useTransition } from "react";
 import { updateCurrentPerson } from "@/services/person/actions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function RegistrationForm(props: {
   currentPerson: z.infer<typeof profileSchema>;
@@ -41,6 +42,7 @@ export function RegistrationForm(props: {
     mode: "all",
   });
 
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(values: z.infer<typeof clientProfileSchema>) {
@@ -51,6 +53,8 @@ export function RegistrationForm(props: {
         "Your details updated successfully! You can now upload your video."
       );
     });
+
+    router.push("/profile/upload");
   }
 
   return (
@@ -118,7 +122,10 @@ export function RegistrationForm(props: {
                 name="alternateContactNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Alternate Contact Number</FormLabel>
+                    <FormLabel>
+                      Alternate Contact Number{" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="98XXXXXXXX" {...field} />
                     </FormControl>

@@ -169,6 +169,8 @@ export function FileUploader(props: FileUploaderProps) {
     const newFiles = files.filter((_, i) => i !== index);
     setFiles(newFiles);
     onValueChange?.(newFiles);
+
+    location.reload();
   }
 
   // Revoke preview url when component unmounts
@@ -281,8 +283,8 @@ function FileCard({
         {isFileWithPreview(file) ? (
           <video
             src={file.preview}
-            width={100}
-            height={100}
+            width={150}
+            height={150}
             className="aspect-square shrink-0 rounded-md object-cover"
           />
         ) : null}
@@ -302,15 +304,13 @@ function FileCard({
                 Estimated {formatDuration(estimatedSeconds)} remaining
               </p>
               <p className="text-sm text-gray-400">
-                Do not refresh the page while video is being uploaded! If you
-                want to cancel video upload. Just refresh this page or swipe
-                down the page to cancel video upload.
+                Do not refresh the page while video is being uploaded!
               </p>
             </div>
           )}
         </div>
       </div>
-      {/* <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2">
         <Button
           type="button"
           variant="outline"
@@ -321,7 +321,7 @@ function FileCard({
           <Cross2Icon className="size-4 " aria-hidden="true" />
           <span className="sr-only">Remove file</span>
         </Button>
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default async function UploadVideo() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Upload Video</CardTitle>
+        <CardTitle>{person.fileURL ? "Edit Video" : "Upload Video"}</CardTitle>
         <CardDescription>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </CardDescription>

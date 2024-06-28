@@ -15,8 +15,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function UserAccountDropdown({
   avatarURL,
   fallbackName,
+  fileURL,
 }: {
   avatarURL: string;
+  fileURL: string | undefined;
   fallbackName: string;
 }) {
   return (
@@ -38,7 +40,9 @@ export function UserAccountDropdown({
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/profile/upload">Upload Video</Link>
+          <Link href="/profile/upload">
+            {fileURL ? "Edit" : "Upload"} Video
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 

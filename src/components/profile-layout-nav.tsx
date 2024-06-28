@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function ProfileLayoutNav() {
+export function ProfileLayoutNav({ fileURL }: { fileURL: string | undefined }) {
   const pathname = usePathname();
 
   const activeClass = "font-semibold text-primary";
@@ -24,7 +24,7 @@ export function ProfileLayoutNav() {
         href="/profile/upload"
         className={cn(pathname === "/profile/upload" && activeClass)}
       >
-        Upload Video
+        {fileURL ? "Edit" : "Upload"} Video
       </Link>
     </nav>
   );

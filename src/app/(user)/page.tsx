@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { GoogleLogo } from "@/components/google-logo";
-import { FacebookLogo } from "@/components/facebook-logo";
 import { auth, signIn } from "@/lib/auth";
-import { BasicUploaderDemo } from "@/components/video-upload";
 import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
+import { getLoggedInUserDetail } from "@/services/person/get-current-person";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const session = await auth();
+  const { session, user } = await getLoggedInUserDetail();
 
   return (
     <>
@@ -39,10 +39,12 @@ export default async function Home() {
           <Button asChild className="mt-6 inline-block" variant="secondary">
             {session?.user ? (
               <Button asChild>
-                <Link href="/profile/upload">Upload your video</Link>
+                <Link href="/profile/upload">
+                  {user?.fileURL ? "Edit" : "Upload"} your video
+                </Link>
               </Button>
             ) : (
-              <Link href="/register">Register Now</Link>
+              <Link href="/#register">Register Now</Link>
             )}
           </Button>
         </div>
@@ -225,7 +227,7 @@ export default async function Home() {
       </section>
          */}
 
-      {/* <div className="py-12" id="register">
+      <div className="py-12" id="register">
         <div className="relative z-10">
           <div className="container py-10 lg:py-16">
             <div className="max-w-2xl text-center mx-auto">
@@ -236,9 +238,8 @@ export default async function Home() {
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Suscipit quis ex corrupti dolores quia cumque tempora amet
-                  enim autem et.
+                  Register for the Cosmo Acoustic Challenge 3.0 and get a chance
+                  to showcase your talent with others.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
@@ -247,7 +248,7 @@ export default async function Home() {
                     <form
                       action={async () => {
                         "use server";
-                        await signIn("google");
+                        await signIn("google", { redirectTo: "/profile" });
                       }}
                       className={cn("flex-1 md:flex-initial")}
                     >
@@ -257,11 +258,11 @@ export default async function Home() {
                         className="flex gap-1 w-full md:w-auto"
                         type="submit"
                       >
-                        <GoogleLogo className="h-5 w-5" /> Register with Google
+                        <GoogleLogo className="h-5 w-5" /> Sign in with Google
                       </Button>
                     </form>
 
-                    <form
+                    {/* <form
                       action={async () => {
                         "use server";
                         await signIn("facebook");
@@ -276,18 +277,20 @@ export default async function Home() {
                         <FacebookLogo className="h-5 w-5" />
                         Register with Facebook
                       </Button>
-                    </form>
+                    </form> */}
                   </>
                 ) : (
                   <Button asChild>
-                    <Link href="/profile/upload">Upload your video</Link>
+                    <Link href="/profile/upload">
+                      {user?.fileURL ? "Edit" : "Upload"} your video
+                    </Link>
                   </Button>
                 )}
               </div>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       <section className="bg-gray-100 py-20 px-4" id="faq">
         <div className="mx-auto max-w-4xl space-y-4">
