@@ -234,7 +234,8 @@ function ParticipantsTable({
                   </Badge>
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {participant.dateOfBirth.toDateString()}
+                  {participant.dateOfBirth.toDateString()} -{" "}
+                  {calculateAge(participant.dateOfBirth)} years old
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
                   {participant.contactNumber}
@@ -473,4 +474,20 @@ function generatePagination(
   }
 
   return pages;
+}
+
+function calculateAge(dateOfBirth: Date) {
+  const today = new Date();
+  const birthDate = new Date(dateOfBirth);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
 }
