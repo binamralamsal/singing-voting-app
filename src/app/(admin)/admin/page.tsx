@@ -54,6 +54,7 @@ import {
   defaultLayoutIcons,
   DefaultVideoLayout,
 } from "@vidstack/react/player/layouts/default";
+import { LoginForm } from "@/components/login-form";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,7 @@ export default async function AdminDashboard({
 }) {
   await dbConnect();
   const session = await auth();
-  if (!session || !session.user?.email) return redirect("/");
+  if (!session || !session.user?.email) return <LoginForm />;
 
   const allowedRoles = ["reviewer", "admin", "selector"];
 

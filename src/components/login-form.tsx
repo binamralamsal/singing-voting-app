@@ -108,12 +108,6 @@ export function LoginForm() {
                   Login
                 </Button>
               </div>
-              <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/#register" className="underline">
-                  Register
-                </Link>
-              </div>
             </form>
           </Form>
         </CardContent>
