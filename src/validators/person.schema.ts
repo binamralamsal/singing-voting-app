@@ -13,7 +13,19 @@ const phoneNumberSchema = z.union([
 
 export const profileSchema = z.object({
   fullName: z.string().max(255).min(1, "Enter your name"),
-  dateOfBirth: z.string().min(1, "Provide your date of birth"),
+  dateOfBirth: z
+    .string()
+    .min(1, "Provide your date of birth")
+    .refine(
+      (date) => {
+        const enteredDate = new Date(date);
+        const todayDate = new Date(new Date());
+        return enteredDate <= todayDate;
+      },
+      {
+        message: "Date of birth cannot be in the future",
+      }
+    ),
   contactNumber: phoneNumberSchema,
   alternateContactNumber: phoneNumberSchema,
   address: z.string().min(1, "Enter your address"),
