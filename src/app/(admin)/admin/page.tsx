@@ -66,11 +66,10 @@ export default async function AdminDashboard({
   const session = await auth();
   if (!session || !session.user?.email) return redirect("/");
 
+  const allowedRoles = ["reviewer", "admin", "selector"];
+
   const currentPerson = await Person.findOne({ email: session.user.email });
-  if (
-    !currentPerson ||
-    (currentPerson.role !== "reviewer" && currentPerson.role !== "admin")
-  )
+  if (!currentPerson || !allowedRoles.includes(currentPerson.role))
     return redirect("/");
 
   const participantsFilter: Record<string, unknown> = {
@@ -79,19 +78,26 @@ export default async function AdminDashboard({
   };
 
   let activeTab = "all";
-  if (typeof searchParams.tab !== "undefined") {
-    if (
-      searchParams.tab === "approved" ||
-      searchParams.tab === "spam" ||
-      searchParams.tab === "pending"
-    ) {
-      participantsFilter.status = searchParams.tab;
-      activeTab = searchParams.tab;
-    }
+  let allTabs: string[] = [];
+
+  if (currentPerson.role === "admin") {
+    allTabs = ["all", "pending", "approved", "spam", "rejected", "selected"];
+  } else if (currentPerson.role === "reviewer") {
+    allTabs = ["all", "pending", "approved", "spam"];
+  } else if (currentPerson.role === "selector") {
+    allTabs = ["approved", "rejected", "selected"];
   }
+
+  if (
+    typeof searchParams.tab !== "undefined" &&
+    allTabs.includes(searchParams.tab)
+  ) {
+    participantsFilter.status = searchParams.tab;
+    activeTab = searchParams.tab;
+  }
+
   const currentPage = Number(searchParams.page) || 1;
   const perPage = 15;
-
   const skip = (currentPage - 1) * perPage;
 
   const participants = await Person.find(participantsFilter)
@@ -108,44 +114,18 @@ export default async function AdminDashboard({
 
       <div>
         <div className="inline-flex flex-wrap items-center  rounded-md bg-muted p-1 text-muted-foreground">
-          <Link
-            href={`/admin`}
-            className={cn(
-              "rounded-sm px-3 py-1.5 text-sm font-medium",
-              activeTab === "all" && "bg-background text-foreground shadow-sm"
-            )}
-          >
-            All
-          </Link>
-          <Link
-            href={`/admin?tab=pending`}
-            className={cn(
-              "rounded-sm px-3 py-1.5 text-sm font-medium",
-              activeTab === "pending" &&
-                "bg-background text-foreground shadow-sm"
-            )}
-          >
-            Pending
-          </Link>
-          <Link
-            href={`/admin?tab=approved`}
-            className={cn(
-              "rounded-sm px-3 py-1.5 text-sm font-medium",
-              activeTab === "approved" &&
-                "bg-background text-foreground shadow-sm"
-            )}
-          >
-            Approved
-          </Link>
-          <Link
-            href={`/admin?tab=spam`}
-            className={cn(
-              "rounded-sm px-3 py-1.5 text-sm font-medium",
-              activeTab === "spam" && "bg-background text-foreground shadow-sm"
-            )}
-          >
-            Spam
-          </Link>
+          {allTabs.map((tab) => (
+            <Link
+              href={tab === "all" ? "/admin" : `/admin?tab=${tab}`}
+              key={tab}
+              className={cn(
+                "rounded-sm px-3 py-1.5 text-sm font-medium capitalize",
+                activeTab === tab && "bg-background text-foreground shadow-sm"
+              )}
+            >
+              {tab}
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -168,6 +148,7 @@ export default async function AdminDashboard({
           totalPages={totalPages}
           searchParams={searchParams}
           totalParticipants={totalParticipants}
+          currentRole={currentPerson.role}
         />
       )}
     </>
@@ -181,6 +162,7 @@ function ParticipantsTable({
   totalPages,
   totalParticipants,
   searchParams,
+  currentRole,
 }: {
   participants: (Document<unknown, {}, IPerson> &
     IPerson &
@@ -192,6 +174,7 @@ function ParticipantsTable({
   totalPages: number;
   searchParams: Record<string, string>;
   totalParticipants: number;
+  currentRole: string;
 }) {
   const paginationRange = generatePagination(currentPage, totalPages);
   return (
@@ -228,14 +211,12 @@ function ParticipantsTable({
                 </TableCell>
                 <TableCell>
                   <Badge
-                    variant={
-                      participant.status === "approved"
-                        ? "success"
-                        : participant.status === "spam"
-                        ? "destructive"
-                        : "outline"
-                    }
                     className="capitalize"
+                    variant={
+                      participant.status === "pending"
+                        ? "outline"
+                        : participant.status
+                    }
                   >
                     {participant.status}
                   </Badge>
@@ -302,39 +283,32 @@ function ParticipantsTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      {participant.status !== "pending" && (
-                        <form
-                          action={async () => {
-                            "use server";
+                      {currentRole !== "selector" &&
+                        participant.status !== "pending" && (
+                          <form
+                            action={async () => {
+                              "use server";
 
-                            await Person.updateOne(
-                              {
-                                email: participant.email,
-                              },
-                              {
-                                status: "pending",
-                              }
-                            );
-                            revalidatePath("/admin");
-                          }}
-                        >
-                          <DropdownMenuItem asChild>
-                            <button className="w-full">Mark as Pending</button>
-                          </DropdownMenuItem>
-                        </form>
-                      )}
+                              await Person.updateOne(
+                                { email: participant.email },
+                                { status: "pending" }
+                              );
+                              revalidatePath("/admin");
+                            }}
+                          >
+                            <DropdownMenuItem asChild>
+                              <button className="w-full">Pending</button>
+                            </DropdownMenuItem>
+                          </form>
+                        )}
                       {participant.status !== "approved" && (
                         <form
                           action={async () => {
                             "use server";
 
                             await Person.updateOne(
-                              {
-                                email: participant.email,
-                              },
-                              {
-                                status: "approved",
-                              }
+                              { email: participant.email },
+                              { status: "approved" }
                             );
                             revalidatePath("/admin");
                           }}
@@ -344,27 +318,60 @@ function ParticipantsTable({
                           </DropdownMenuItem>
                         </form>
                       )}
-                      {participant.status !== "spam" && (
-                        <form
-                          action={async () => {
-                            "use server";
+                      {currentRole !== "selector" &&
+                        participant.status !== "spam" && (
+                          <form
+                            action={async () => {
+                              "use server";
 
-                            await Person.updateOne(
-                              {
-                                email: participant.email,
-                              },
-                              {
-                                status: "spam",
-                              }
-                            );
-                            revalidatePath("/admin");
-                          }}
-                        >
-                          <DropdownMenuItem asChild>
-                            <button className="w-full">Mark as Spam</button>
-                          </DropdownMenuItem>
-                        </form>
-                      )}
+                              await Person.updateOne(
+                                { email: participant.email },
+                                { status: "spam" }
+                              );
+                              revalidatePath("/admin");
+                            }}
+                          >
+                            <DropdownMenuItem asChild>
+                              <button className="w-full">Spam</button>
+                            </DropdownMenuItem>
+                          </form>
+                        )}
+                      {currentRole !== "reviewer" &&
+                        participant.status !== "rejected" && (
+                          <form
+                            action={async () => {
+                              "use server";
+
+                              await Person.updateOne(
+                                { email: participant.email },
+                                { status: "rejected" }
+                              );
+                              revalidatePath("/admin");
+                            }}
+                          >
+                            <DropdownMenuItem asChild>
+                              <button className="w-full">Reject</button>
+                            </DropdownMenuItem>
+                          </form>
+                        )}
+                      {currentRole !== "reviewer" &&
+                        participant.status !== "selected" && (
+                          <form
+                            action={async () => {
+                              "use server";
+
+                              await Person.updateOne(
+                                { email: participant.email },
+                                { status: "selected" }
+                              );
+                              revalidatePath("/admin");
+                            }}
+                          >
+                            <DropdownMenuItem asChild>
+                              <button className="w-full">Select</button>
+                            </DropdownMenuItem>
+                          </form>
+                        )}
                       <DropdownMenuSub>
                         <DropdownMenuSubTrigger>
                           Motivation Reason

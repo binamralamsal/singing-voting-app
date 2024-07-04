@@ -13,8 +13,8 @@ export interface IPerson extends Document {
   fileProcessing: boolean;
   profileCompleted: boolean;
   password?: string;
-  role: "participant" | "reviewer" | "admin";
-  status: "pending" | "approved" | "spam";
+  role: "participant" | "reviewer" | "admin" | "selector";
+  status: "pending" | "approved" | "spam" | "rejected" | "selected";
   personId: number;
   getParticipantId: () => string; // Add this method to the interface
 }
@@ -72,12 +72,12 @@ const personSchema: Schema<IPerson> = new Schema({
   },
   role: {
     type: String,
-    enum: ["reviewer", "participant", "admin"],
+    enum: ["reviewer", "participant", "admin", "selector"],
     default: "participant",
   },
   status: {
     type: String,
-    enum: ["pending", "approved", "spam"],
+    enum: ["pending", "approved", "spam", "rejected", "selected"],
     default: "pending",
   },
 });
