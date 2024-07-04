@@ -205,7 +205,7 @@ function ParticipantsTable({
               <TableRow key={(participant._id as string).toString() as string}>
                 <TableCell>CAC_{participant.personId + 800}</TableCell>
                 <TableCell className="font-medium">
-                  {participant.email}
+                  {participant.fullName}
                 </TableCell>
                 <TableCell className="font-medium">
                   {participant.email}
