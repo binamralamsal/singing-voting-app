@@ -34,11 +34,14 @@ import { useRouter } from "next/navigation";
 import { CalendarDatePicker } from "./calendar-date-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CopyIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 
 export function RegistrationForm(props: {
-  currentPerson: z.infer<typeof profileSchema>;
+  currentPerson: z.infer<typeof profileSchema> & {
+    participantCode: string;
+    email: string;
+  };
 }) {
   const form = useForm<z.infer<typeof clientProfileSchema>>({
     resolver: zodResolver(clientProfileSchema),
@@ -77,24 +80,38 @@ export function RegistrationForm(props: {
             <CardTitle>Profile</CardTitle>
             <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
           </CardHeader>
-          {/* <div className="p-4 max-w-xl">
-            <h1 className="text-2xl font-bold mb-4">
-              Calendar Date Picker Component
-            </h1>
-            <CalendarDatePicker
-              date={selectedDateRange}
-              onDateSelect={setSelectedDateRange}
-              
-            />
-            <div className="mt-4">
-              <h2 className="text-md font-semibold">Selected Date Range:</h2>
-              <p className="text-sm">
-                {selectedDateRange.from.toDateString()} -{" "}
-                {selectedDateRange.to.toDateString()}
+          <CardContent className="space-y-8">
+            <div className="space-y-2">
+              <p className="space-x-2">
+                <span>
+                  <strong>Participant Code</strong>:{" "}
+                  {props.currentPerson.participantCode}
+                </span>
+                <Button
+                  variant="outline"
+                  className="h-6 w-6 p-0"
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText(props.currentPerson.participantCode)
+                      .then(() => {
+                        toast.success(
+                          `${props.currentPerson.participantCode} has been copied to clipboard.`
+                        );
+                      })
+                      .catch(() => {
+                        toast.error(
+                          `Failed to copy text, please use a modern browser.`
+                        );
+                      });
+                  }}
+                >
+                  <CopyIcon className="w-3 h-3" />
+                </Button>
+              </p>
+              <p>
+                <strong>Email Address</strong>: {props.currentPerson.email}
               </p>
             </div>
-          </div> */}
-          <CardContent className="space-y-8">
             <div className="grid md:grid-cols-2 gap-3">
               <FormField
                 control={form.control}

@@ -16,13 +16,13 @@ export function ProfileLayoutNav({ fileURL }: { fileURL: string | undefined }) {
     >
       <Link
         href="/profile"
-        className={cn(pathname === "/profile" && activeClass)}
+        className={cn(pathname === "/profile" && activeClass, "w-fit")}
       >
         Profile
       </Link>
       <Link
         href="/profile/upload"
-        className={cn(pathname === "/profile/upload" && activeClass)}
+        className={cn(pathname === "/profile/upload" && activeClass, "w-fit")}
       >
         {fileURL ? "Edit" : "Upload"} Video
       </Link>

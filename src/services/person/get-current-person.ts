@@ -19,6 +19,8 @@ export const getCurrentPerson = cache(async () => {
     dateOfBirth: user?.dateOfBirth?.toString() || "",
     contactNumber: user?.contactNumber || "",
     profession: user?.profession || "",
+    participantCode: user?.getParticipantId() || "",
+    email: user?.email || "",
   };
 
   return currentPerson;
