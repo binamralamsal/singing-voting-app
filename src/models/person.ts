@@ -16,6 +16,7 @@ export interface IPerson extends Document {
   role: "participant" | "reviewer" | "admin";
   status: "pending" | "approved" | "spam";
   personId: number;
+  getParticipantId: () => string; // Add this method to the interface
 }
 
 const personSchema: Schema<IPerson> = new Schema({
@@ -104,6 +105,10 @@ personSchema.pre("save", async function (next) {
     next(error as CallbackError);
   }
 });
+
+personSchema.methods.getParticipantId = function (): string {
+  return `CAC_${800 + this.personId}`;
+};
 
 export const Person: Model<IPerson> =
   mongoose.models.Person || mongoose.model<IPerson>("Person", personSchema);
