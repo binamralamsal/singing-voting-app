@@ -47,6 +47,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import "@vidstack/react/player/styles/default/theme.css";
+import "@vidstack/react/player/styles/default/layouts/video.css";
+import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import {
+  defaultLayoutIcons,
+  DefaultVideoLayout,
+} from "@vidstack/react/player/layouts/default";
 
 export const dynamic = "force-dynamic";
 
@@ -265,11 +272,10 @@ function ParticipantsTable({
                             {participant.fullName}&apos;s Video
                           </DialogTitle>
                           <DialogDescription>
-                            <video
-                              src={participant.fileURL}
-                              controls
-                              className="aspect-video"
-                            ></video>
+                            <MediaPlayer src={participant.fileURL}>
+                              <MediaProvider />
+                              <DefaultVideoLayout icons={defaultLayoutIcons} />
+                            </MediaPlayer>
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter className="sm:justify-start">

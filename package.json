@@ -29,6 +29,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/fluent-ffmpeg": "^2.1.24",
     "@types/mime-types": "^2.1.4",
+    "@vidstack/react": "^1.11.25",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "bull": "^4.13.0",
