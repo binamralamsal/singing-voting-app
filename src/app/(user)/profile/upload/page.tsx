@@ -30,7 +30,8 @@ export default async function UploadVideo() {
       <CardHeader>
         <CardTitle>{person.fileURL ? "Edit Video" : "Upload Video"}</CardTitle>
         <CardDescription>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Please upload your performance video accompanied by a guitar, ukulele,
+          or keyboard.
         </CardDescription>
       </CardHeader>
       <BasicUploaderDemo

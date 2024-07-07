@@ -76,8 +76,9 @@ inquirer
 
       await Person.create({ ...answers, password: hashedPassword });
       console.log("Person created successfully");
-    } catch {
+    } catch (err) {
       console.error("Error occured while creating user");
+      console.error(err);
     } finally {
       process.exit(0);
     }

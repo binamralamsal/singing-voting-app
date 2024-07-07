@@ -18,24 +18,28 @@ export default function TermsAndConditionsPage() {
             <Link href="/" className="text-blue-600 hover:text-blue-500">
               www.cosmoconcepts.com.np
             </Link>{" "}
-            or Cosmo Acoustic Challenge app before 12pm, 13th July, 2024,
+            or Cosmo Acoustic Challenge app before 12pm, 3rd August, 2024,
             Saturday.
           </li>
           <li>
-            50 challengers will be selected which will be announced on, 17th
-            July, 2024, Wednesday.
+            50 challengers will be selected which will be announced on, 8th
+            August, 2024, Thursday.
           </li>
           <li>
             The selected 50 challengers will be called for a live audition on
-            20th July 2024, Saturday.
+            10th August 2024, Saturday.
           </li>
           <li>
             30 challengers will be selected amongst the challengers for live
-            shoot, and will be announced on 25th July 2024, Thursday.
+            shoot, and will be announced on 15th August 2024, Thursday.
           </li>
           <li>
-            Selected 30 challengers should perform their talent, i.e., One took
-            a video shoot on 3rd August, 2024, Saturday.
+            Selected 30 challengers should attend a workshop prior to the final
+            one take video shoot on 17th August, 2024.
+          </li>
+          <li>
+            Selected 30 challengers should perform their talent, i.e., One take
+            video shoot on 24th August, 2024, Saturday.
           </li>
           <li>
             All the 30 challengers&apos; videos will go live from Musica Music{" "}
@@ -46,11 +50,11 @@ export default function TermsAndConditionsPage() {
             >
               YouTube channel (https://www.youtube.com/@MusicaMusic)
             </Link>{" "}
-            on 10th August 2024, Saturday.
+            on 31st August 2024, Saturday.
           </li>
           <li>
-            The challengers will have 2 weeks beginning from 10th August 2024,
-            Saturday to 23th August 2024, Friday 12pm to get their votes or
+            The challengers will have 3 weeks beginning from 31st August 2024,
+            Saturday to 21st September 2024, Friday 12pm to get their votes or
             criteria for winning.
           </li>
         </ul>
@@ -71,8 +75,8 @@ export default function TermsAndConditionsPage() {
         <h2 className="font-bold text-2xl mb-3">Rules and Guidelines</h2>
         <ul className="list-disc ml-4 space-y-1">
           <li>
-            Only 30 challengers will be selected which will be informed by 25th
-            July 2024, Thursday.
+            Only 30 challengers will be selected which will be informed by 15th
+            August 2024, Thursday.
           </li>
           <li>Challengers shall only sing Nepali songs.</li>
           <li>
@@ -129,9 +133,9 @@ export default function TermsAndConditionsPage() {
           <li>A challenger shall enter only once.</li>
           <li>
             The deadline for submission of video shall be on or before 12:00 PM,
-            13th July 2024, Saturday and the result for 50 selected challengers
-            for live audition shall be announced on or before 8:00 PM, 17th July
-            2024, Wednesday.
+            3rd August 2024, Saturday and the result for 50 selected challengers
+            for live audition shall be announced on or before 8:00 PM, 8th
+            August 2024, Thursday.
           </li>
         </ul>
       </div>
@@ -168,8 +172,7 @@ export default function TermsAndConditionsPage() {
       <div className="py-2">
         <h2 className="font-bold text-2xl mb-3">Prize for Winners</h2>
         <p>
-          Brand new Mantra Semi Acoustic Guitar, a music deal and lots of gift
-          hampers.
+          Brand new Semi Acoustic Guitar, a music deal and lots of gift hampers.
         </p>
       </div>
 

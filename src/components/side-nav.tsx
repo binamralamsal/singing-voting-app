@@ -11,7 +11,7 @@ export async function SideNav() {
     <div>
       {!session?.user ? (
         <Button asChild>
-          <Link href="/#register">Register</Link>
+          <Link href="/#register">Register / Sign In</Link>
         </Button>
       ) : (
         <UserAccountDropdown

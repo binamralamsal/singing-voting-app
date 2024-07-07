@@ -9,6 +9,9 @@ export function MainNav() {
           {link.label}
         </Link>
       ))}
+      <Link href="/app.apk" download target="_blank">
+        Download App
+      </Link>
     </nav>
   );
 }

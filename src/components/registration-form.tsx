@@ -78,7 +78,9 @@ export function RegistrationForm(props: {
         <Card>
           <CardHeader>
             <CardTitle>Profile</CardTitle>
-            <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
+            <CardDescription>
+              Please fill up your credentials below.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
             <div className="space-y-2">
@@ -195,10 +197,7 @@ export function RegistrationForm(props: {
                 name="alternateContactNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Alternate Contact Number{" "}
-                      <span className="text-red-500">*</span>
-                    </FormLabel>
+                    <FormLabel>Alternate Contact Number</FormLabel>
                     <FormControl>
                       <Input placeholder="98XXXXXXXX" {...field} />
                     </FormControl>

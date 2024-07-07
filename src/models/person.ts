@@ -5,7 +5,7 @@ export interface IPerson extends Document {
   fullName: string;
   dateOfBirth: Date;
   contactNumber: string;
-  alternateContactNumber: string;
+  alternateContactNumber?: string;
   address: string;
   profession: string;
   motivationReason: string;

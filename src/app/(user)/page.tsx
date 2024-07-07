@@ -13,6 +13,7 @@ import { auth, signIn } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { getLoggedInUserDetail } from "@/services/person/get-current-person";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -25,6 +26,16 @@ export default async function Home() {
 
   return (
     <>
+      <section className="max-w-7xl mx-auto">
+        <Image
+          src="/banner.png"
+          width={1200}
+          height={600}
+          alt="Banner"
+          className="w-full h-[18rem] md:h-[30rem] object-cover"
+        />
+      </section>
+
       <section className="px-1 bg-primary text-white text-center py-24">
         <div className="mx-auto max-w-4xl">
           <Logo className="h-14 w-14 mx-auto" />
@@ -44,7 +55,7 @@ export default async function Home() {
                 </Link>
               </Button>
             ) : (
-              <Link href="/#register">Register Now</Link>
+              <Link href="/#register">Register / Sign In</Link>
             )}
           </Button>
         </div>
@@ -78,8 +89,7 @@ export default async function Home() {
                 To participate in the Cosmo Acoustic Challenge, challengers must
                 sing Nepali songs and can be accompanied by a guitar, ukulele,
                 or keyboard. The instrument player can be either the contestant
-                or a friend. Only 30 challengers will be selected for the final
-                video shoot.
+                or a friend.
               </p>
             </div>
           </div>
@@ -99,7 +109,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                22nd June 2024, Saturday - Registration Starts
+                6th July 2024, Saturday - Registration Starts
               </div>
               <div className="text-gray-600">
                 Registration for the Cosmo Acoustic Challenge 3.0 starts!
@@ -108,7 +118,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                13th July 2024, Saturday - Video Submission Deadline
+                3rd August 2024, Saturday - Video Submission Deadline
               </div>
               <div className="text-gray-600">
                 Submit your singing video accompanied by a guitar, ukulele, or
@@ -118,7 +128,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                17th July 2024, Wednesday - Announcement of Selected 50
+                8st August 2024, Thursday - Announcement of Selected 50
                 Challengers
               </div>
               <div className="text-gray-600">
@@ -128,7 +138,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                20th July 2024, Saturday - Live Audition
+                10th August 2024, Saturday - Live Audition
               </div>
               <div className="text-gray-600">
                 Selected challengers will attend a live audition.
@@ -137,7 +147,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                25th July 2024, Thursday - Announcement of Selected 30
+                15th August 2024, Thursday - Announcement of Selected 30
                 Challengers
               </div>
               <div className="text-gray-600">
@@ -147,7 +157,17 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                3rd August 2024, Saturday - One-Take Video Shoot
+                17th August 2024, Saturday – Orientation/ Workshop
+              </div>
+              <div className="text-gray-600">
+                The selected 30 challengers should attend a workshop prior final
+                one-take video shoot.
+              </div>
+            </div>
+            <div className="grid gap-1 text-sm relative">
+              <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
+              <div className="font-medium">
+                24th August 2024, Saturday - One-Take Video Shoot
               </div>
               <div className="text-gray-600">
                 The final 30 challengers will perform for a one-take video
@@ -157,7 +177,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                10th August 2024, Saturday - Videos Go Live on Musica Music
+                31st August 2024, Saturday - Videos Go Live on Musica Music
                 YouTube Channel
               </div>
               <div className="text-gray-600">
@@ -168,7 +188,7 @@ export default async function Home() {
             <div className="grid gap-1 text-sm relative">
               <div className="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29px] z-10 top-1" />
               <div className="font-medium">
-                23rd August 2024, Friday - Voting Deadline
+                21st September 2024, Saturday - Voting Deadline
               </div>
               <div className="text-gray-600">
                 Voting and engagement on the videos will close at 12:00 PM.
@@ -233,7 +253,7 @@ export default async function Home() {
             <div className="max-w-2xl text-center mx-auto">
               <div className="mt-5 max-w-2xl">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Register
+                  Register / Sign In
                 </h1>
               </div>
               <div className="mt-5 max-w-3xl">
@@ -388,8 +408,8 @@ export default async function Home() {
                 What are the prizes for winners?
               </AccordionTrigger>
               <AccordionContent>
-                Winners will receive a brand new Mantra Semi Acoustic Guitar, a
-                music deal, and various gift hampers.
+                Winners will receive a brand new Semi Acoustic Guitar, a music
+                video deal, and lots of gift hampers.
               </AccordionContent>
             </AccordionItem>
 
