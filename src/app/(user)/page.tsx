@@ -32,7 +32,7 @@ export default async function Home() {
           width={1200}
           height={600}
           alt="Banner"
-          className="w-full h-[18rem] md:h-[30rem] object-cover"
+          className="w-full md:h-[30rem] object-cover"
         />
       </section>
 
