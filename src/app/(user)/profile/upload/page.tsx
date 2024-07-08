@@ -13,8 +13,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { BasicUploaderDemo } from "@/components/video-upload";
+import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Upload Video",
+};
 
 export default async function UploadVideo() {
   const session = await auth();

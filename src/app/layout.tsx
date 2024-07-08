@@ -7,8 +7,12 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Cosmo Acoustic Challenge 3.0",
-  description: "Online singing competition for all ages. Win cash prizes!",
+  title: {
+    template: "%s | Cosmo Acoustic Challenge",
+    default: "Cosmo Acoustic Challenge",
+  },
+  description: "Online singing competition for all ages.",
+
   manifest: "/manifest.json",
 };
 
