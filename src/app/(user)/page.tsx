@@ -49,11 +49,7 @@ export default async function Home() {
           </p>
           <Button asChild className="mt-6 inline-block" variant="secondary">
             {session?.user ? (
-              <Button asChild>
-                <Link href="/profile/upload">
-                  {user?.fileURL ? "Edit" : "Upload"} your video
-                </Link>
-              </Button>
+              <Button disabled>Registrations have been closed</Button>
             ) : (
               <Link href="/#register">Register / Sign In</Link>
             )}
@@ -258,8 +254,8 @@ export default async function Home() {
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
-                  Register for the Cosmo Acoustic Challenge 3.0 and get a chance
-                  to showcase your talent with others.
+                  Registrations have been closed, please come back for voting
+                  your favorite contestants.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
@@ -277,6 +273,7 @@ export default async function Home() {
                         variant="outline"
                         className="flex gap-1 w-full md:w-auto"
                         type="submit"
+                        disabled
                       >
                         <GoogleLogo className="h-5 w-5" /> Sign in with Google
                       </Button>
@@ -300,11 +297,7 @@ export default async function Home() {
                     </form> */}
                   </>
                 ) : (
-                  <Button asChild>
-                    <Link href="/profile/upload">
-                      {user?.fileURL ? "Edit" : "Upload"} your video
-                    </Link>
-                  </Button>
+                  <Button disabled>Registrations have been closed!</Button>
                 )}
               </div>
             </div>

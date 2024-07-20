@@ -61,15 +61,7 @@ export function RegistrationForm(props: {
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(values: z.infer<typeof clientProfileSchema>) {
-    startTransition(async () => {
-      await updateCurrentPerson(values);
-
-      toast.success(
-        "Your details updated successfully! You can now upload your video."
-      );
-    });
-
-    router.push("/profile/upload");
+    toast.error("Registrations have been closed!");
   }
 
   return (
@@ -79,7 +71,8 @@ export function RegistrationForm(props: {
           <CardHeader>
             <CardTitle>Profile</CardTitle>
             <CardDescription>
-              Please fill up your credentials below.
+              Registrations have been closed, so you can&apos;t update your
+              details.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
@@ -92,6 +85,7 @@ export function RegistrationForm(props: {
                 <Button
                   variant="outline"
                   className="h-6 w-6 p-0"
+                  type="button"
                   onClick={() => {
                     navigator.clipboard
                       .writeText(props.currentPerson.participantCode)
@@ -298,7 +292,7 @@ export function RegistrationForm(props: {
           </CardContent>
 
           <CardFooter className="border-t px-6 py-4">
-            <Button>Update</Button>
+            <Button disabled>Update</Button>
           </CardFooter>
         </Card>
       </form>

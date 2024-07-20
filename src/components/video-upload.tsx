@@ -85,7 +85,9 @@ export function BasicUploaderDemo({
         <CardFooter>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="destructive">Remove Video</Button>
+              <Button variant="destructive" disabled>
+                Remove Video
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -101,17 +103,7 @@ export function BasicUploaderDemo({
                 <DialogClose asChild>
                   <Button variant="outline">Close</Button>
                 </DialogClose>
-                <Button
-                  variant="destructive"
-                  onClick={async () => {
-                    toast.info("Deleting your video!");
-
-                    startTransition(async () => {
-                      await removeVideo();
-                      toast.success("Your video has been deleted");
-                    });
-                  }}
-                >
+                <Button variant="destructive" disabled>
                   Delete
                 </Button>
               </DialogFooter>
@@ -134,24 +126,11 @@ export function BasicUploaderDemo({
             </p>
           ) : (
             <>
-              <FileUploader
-                onUpload={handleUpload}
-                maxFiles={1}
-                accept={{
-                  "video/*": [
-                    ".mp4",
-                    ".webm",
-                    ".ogg",
-                    ".mov",
-                    ".avi",
-                    ".wmv",
-                    ".flv",
-                    ".mkv",
-                  ],
-                }}
-                progresses={progress}
-                estimatedSeconds={estimatedSeconds}
-              />
+              <div>
+                <strong className="size-4">
+                  Registrations have been closed!
+                </strong>
+              </div>
             </>
           )}
         </div>
