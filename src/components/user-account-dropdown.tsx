@@ -37,12 +37,7 @@ export function UserAccountDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
-          <Link href="/profile">Profile</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/profile/upload">
-            {fileURL ? "Edit" : "Upload"} Video
-          </Link>
+          <Link href="/vote">Vote Contestants</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 

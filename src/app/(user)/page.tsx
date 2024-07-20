@@ -49,9 +49,11 @@ export default async function Home() {
           </p>
           <Button asChild className="mt-6 inline-block" variant="secondary">
             {session?.user ? (
-              <Button disabled>Registrations have been closed</Button>
+              <Button>
+                <Link href="/vote">Vote your favorite contestants</Link>
+              </Button>
             ) : (
-              <Link href="/#register">Register / Sign In</Link>
+              <Link href="/#register">Register for voting</Link>
             )}
           </Button>
         </div>
@@ -249,13 +251,12 @@ export default async function Home() {
             <div className="max-w-2xl text-center mx-auto">
               <div className="mt-5 max-w-2xl">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Register / Sign In
+                  Register for Voting
                 </h1>
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
-                  Registrations have been closed, please come back for voting
-                  your favorite contestants.
+                  You can now vote for your favorite contestants.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
@@ -297,7 +298,9 @@ export default async function Home() {
                     </form> */}
                   </>
                 ) : (
-                  <Button disabled>Registrations have been closed!</Button>
+                  <Button asChild>
+                    <Link href="/vote">Vote your contestants</Link>
+                  </Button>
                 )}
               </div>
             </div>
