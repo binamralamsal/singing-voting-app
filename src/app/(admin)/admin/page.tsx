@@ -55,6 +55,7 @@ import {
   DefaultVideoLayout,
 } from "@vidstack/react/player/layouts/default";
 import { LoginForm } from "@/components/login-form";
+import { MarkForVoting } from "./mark-for-voting";
 
 export const dynamic = "force-dynamic";
 
@@ -202,7 +203,7 @@ function ParticipantsTable({
           </TableHeader>
           <TableBody>
             {participants.map((participant) => (
-              <TableRow key={(participant._id as string).toString() as string}>
+              <TableRow key={participant._id.toString()}>
                 <TableCell>CAC_{participant.personId + 800}</TableCell>
                 <TableCell className="font-medium">
                   {participant.fullName}
@@ -388,6 +389,16 @@ function ParticipantsTable({
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
+                {participant.status === "selected" && (
+                  <TableCell>
+                    <MarkForVoting
+                      name={participant.fullName}
+                      id={participant._id.toString()}
+                      photo={participant.photo}
+                      videoLink={participant.videoLink || ""}
+                    />
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

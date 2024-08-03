@@ -41,6 +41,54 @@ export async function updateCurrentPerson(
   return { success: true, message: "User Updated Successfully" };
 }
 
+export async function updateVideoUrl(videoLink: string, id: string) {
+  const session = await auth();
+  if (!session || !session.user) return redirect("/");
+
+  await dbConnect();
+  const person = await Person.findOne({ _id: id });
+
+  if (!person) {
+    return redirect("/admin");
+  } else {
+    await Person.updateOne(
+      { _id: id },
+      {
+        videoLink,
+        isContestant: true,
+      }
+    );
+  }
+
+  revalidatePath("/admin");
+
+  return { success: true, message: "Video link assigned" };
+}
+
+export async function removeContestant(id: string) {
+  const session = await auth();
+  if (!session || !session.user) return redirect("/");
+
+  await dbConnect();
+  const person = await Person.findOne({ _id: id });
+
+  if (!person) {
+    return redirect("/admin");
+  } else {
+    await Person.updateOne(
+      { _id: id },
+      {
+        isContestant: false,
+        videoLink: "",
+      }
+    );
+  }
+
+  revalidatePath("/admin");
+
+  return { success: true, message: "Removed user as contestant" };
+}
+
 export async function removeVideo() {
   const session = await auth();
   if (!session || !session.user) return redirect("/");
@@ -63,6 +111,27 @@ export async function removeVideo() {
   revalidatePath("/profile/upload");
 
   return { message: "Video removed successfully!" };
+}
+
+export async function removePhoto({ id }: { id: string }) {
+  const session = await auth();
+  if (!session || !session.user) return redirect("/");
+
+  await dbConnect();
+
+  const person = await Person.findOne({ _id: id });
+  if (!person) return redirect("/admin");
+
+  await Person.updateOne({ _id: id }, { $set: { photo: "" } });
+
+  if (person.photo) {
+    const filePath = person.photo.replace("/api", ".");
+    await fs.unlink(filePath);
+  }
+
+  revalidatePath("/admin");
+
+  return { message: "Photo removed successfully!" };
 }
 
 export async function signInUser(person: { email: string; password: string }) {

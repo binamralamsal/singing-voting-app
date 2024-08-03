@@ -1,4 +1,15 @@
-import mongoose, { Document, Schema, Model, CallbackError } from "mongoose";
+import mongoose, {
+  Document,
+  Schema,
+  Model,
+  CallbackError,
+  ObjectId,
+} from "mongoose";
+
+export interface IVote {
+  voterId: mongoose.Types.ObjectId;
+  votes: number;
+}
 
 export interface IPerson extends Document {
   email: string;
@@ -15,9 +26,24 @@ export interface IPerson extends Document {
   password?: string;
   role: "participant" | "reviewer" | "admin" | "selector";
   status: "pending" | "approved" | "spam" | "rejected" | "selected";
+  isContestant: boolean;
   personId: number;
-  getParticipantId: () => string; // Add this method to the interface
+  numberOfVotes: number;
+  votes: IVote[];
+  photo: string;
+  videoLink?: string;
+  getParticipantId: () => string;
+  _id: ObjectId;
 }
+
+const voteSchema: Schema<IVote> = new Schema({
+  voterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Person",
+    required: true,
+  },
+  votes: { type: Number, required: true },
+});
 
 const personSchema: Schema<IPerson> = new Schema({
   personId: { type: Number, unique: true },
@@ -79,6 +105,23 @@ const personSchema: Schema<IPerson> = new Schema({
     type: String,
     enum: ["pending", "approved", "spam", "rejected", "selected"],
     default: "pending",
+  },
+  isContestant: {
+    type: Boolean,
+    default: false,
+  },
+  numberOfVotes: {
+    type: Number,
+    default: 0,
+  },
+  votes: [voteSchema],
+  photo: {
+    type: String,
+    default: "",
+  },
+  videoLink: {
+    type: String,
+    default: "",
   },
 });
 

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useFormStatus } from "react-dom";
+import Image from "next/image";
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -90,6 +91,7 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @example disabled
    */
   disabled?: boolean;
+  isImage?: boolean;
 }
 
 export function FileUploader(props: FileUploaderProps) {
@@ -255,6 +257,7 @@ export function FileUploader(props: FileUploaderProps) {
                 onRemove={() => onRemove(index)}
                 progress={progresses?.[file.name]}
                 estimatedSeconds={estimatedSeconds?.[file.name]}
+                isImage={props.isImage}
               />
             ))}
           </div>
@@ -269,6 +272,7 @@ interface FileCardProps {
   onRemove: () => void;
   progress?: number;
   estimatedSeconds?: number;
+  isImage?: boolean;
 }
 
 function FileCard({
@@ -276,17 +280,28 @@ function FileCard({
   progress,
   onRemove,
   estimatedSeconds,
+  isImage,
 }: FileCardProps) {
   return (
     <div className="relative flex items-center space-x-4">
       <div className="flex flex-1 space-x-4">
         {isFileWithPreview(file) ? (
-          <video
-            src={file.preview}
-            width={150}
-            height={150}
-            className="aspect-square shrink-0 rounded-md object-cover"
-          />
+          isImage ? (
+            <Image
+              src={file.preview}
+              width={30}
+              height={30}
+              alt="image"
+              className="aspect-square shrink-0 rounded-md object-cover"
+            />
+          ) : (
+            <video
+              src={file.preview}
+              width={150}
+              height={150}
+              className="aspect-square shrink-0 rounded-md object-cover"
+            />
+          )
         ) : null}
         <div className="flex w-full flex-col gap-2">
           <div className="space-y-px">
