@@ -36,13 +36,17 @@ export default function AdminLayout({
               </Link>
               <Link
                 href="/admin"
-                className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+                className="mx-[-0.65rem] flex items-center gap-4 rounded-xl  px-3 py-2 text-foreground hover:text-foreground"
               >
                 <MicVocal className="h-5 w-5" />
                 Participants
-                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  6
-                </Badge>
+              </Link>
+              <Link
+                href="/admin/contestants"
+                className="mx-[-0.65rem] flex items-center gap-4 rounded-xl  px-3 py-2 text-foreground hover:text-foreground"
+              >
+                <MicVocal className="h-5 w-5" />
+                Contestants
               </Link>
               <Link
                 href="/"
@@ -77,6 +81,7 @@ function AdminNavbar() {
   return (
     <nav className="flex-1 hidden md:flex items-center gap-4 text-sm lg:gap-6">
       <Link href="/admin">Participants</Link>
+      <Link href="/admin/contestants">Contestants</Link>
       <Link href="/">Go to Live Website</Link>
     </nav>
   );

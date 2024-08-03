@@ -204,7 +204,7 @@ function ParticipantsTable({
           <TableBody>
             {participants.map((participant) => (
               <TableRow key={participant._id.toString()}>
-                <TableCell>CAC_{participant.personId + 800}</TableCell>
+                <TableCell>{participant.getParticipantId()}</TableCell>
                 <TableCell className="font-medium">
                   {participant.fullName}
                 </TableCell>
@@ -396,6 +396,7 @@ function ParticipantsTable({
                       id={participant._id.toString()}
                       photo={participant.photo}
                       videoLink={participant.videoLink || ""}
+                      isContestant={participant.isContestant}
                     />
                   </TableCell>
                 )}

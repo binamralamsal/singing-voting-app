@@ -10,6 +10,8 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/db-connect";
 import { revalidatePath } from "next/cache";
 import { genSalt, hash } from "bcryptjs";
+import { getCurrentPerson, getLoggedInUserDetail } from "./get-current-person";
+import { calculateRemainingVotes } from "./calculate-remaining-votes";
 
 export async function updateCurrentPerson(
   person: z.infer<typeof profileSchema>
@@ -80,6 +82,7 @@ export async function removeContestant(id: string) {
       {
         isContestant: false,
         videoLink: "",
+        votes: [],
       }
     );
   }
@@ -185,4 +188,43 @@ export async function registerUser(personDetails: {
 
 export async function registerWithGoogle() {
   return await signIn("google");
+}
+
+export async function voteContestant(formData: FormData) {
+  const { user } = await getLoggedInUserDetail();
+  if (!user) return redirect("/");
+
+  const votes = parseInt((formData.get("votes") as string) || "");
+  const contestantId = formData.get("contestant");
+  const remainingNumberOfVotes = await calculateRemainingVotes(
+    user._id.toString()
+  );
+
+  if (votes > remainingNumberOfVotes)
+    return { error: `You only have ${remainingNumberOfVotes} votes left!` };
+
+  const result = await Person.updateOne(
+    { _id: contestantId, "votes.voterId": user._id },
+    {
+      $inc: { "votes.$.votes": votes },
+    }
+  );
+
+  if (result.matchedCount === 0) {
+    await Person.updateOne(
+      { _id: contestantId },
+      {
+        $push: {
+          votes: {
+            voterId: user._id,
+            votes: votes,
+          },
+        },
+      }
+    );
+  }
+
+  revalidatePath("/vote");
+
+  return { message: `Successfully voted ${votes} to the contestant` };
 }

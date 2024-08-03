@@ -28,10 +28,9 @@ export interface IPerson extends Document {
   status: "pending" | "approved" | "spam" | "rejected" | "selected";
   isContestant: boolean;
   personId: number;
-  numberOfVotes: number;
   votes: IVote[];
   photo: string;
-  videoLink?: string;
+  videoLink: string;
   getParticipantId: () => string;
   _id: ObjectId;
 }
@@ -109,10 +108,6 @@ const personSchema: Schema<IPerson> = new Schema({
   isContestant: {
     type: Boolean,
     default: false,
-  },
-  numberOfVotes: {
-    type: Number,
-    default: 0,
   },
   votes: [voteSchema],
   photo: {

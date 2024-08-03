@@ -37,16 +37,26 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { voteContestant } from "@/services/person/actions";
+import { toast } from "sonner";
+import Link from "next/link";
 
 export type Contestant = {
   name: string;
   video: string;
   image: string;
   code: string;
+  id: string;
 };
 
-export function ContestantCard({ contestant }: { contestant: Contestant }) {
+export function ContestantCard({
+  contestant,
+  remainingVotes,
+}: {
+  contestant: Contestant;
+  remainingVotes: number;
+}) {
   return (
     <Card key={contestant.name}>
       <Image
@@ -63,7 +73,7 @@ export function ContestantCard({ contestant }: { contestant: Contestant }) {
         </CardDescription>
       </CardContent>
       <CardFooter>
-        <VotingDialog contestant={contestant} />
+        <VotingDialog contestant={contestant} remainingVotes={remainingVotes} />
       </CardFooter>
     </Card>
   );
@@ -78,7 +88,13 @@ function ContestantVideo({ url, name }: { url: string; name: string }) {
   );
 }
 
-export function VotingDialog({ contestant }: { contestant: Contestant }) {
+export function VotingDialog({
+  contestant,
+  remainingVotes,
+}: {
+  contestant: Contestant;
+  remainingVotes: number;
+}) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -94,12 +110,12 @@ export function VotingDialog({ contestant }: { contestant: Contestant }) {
           <DialogHeader>
             <DialogTitle>Vote for {contestant.name}</DialogTitle>
             <DialogDescription>
-              You have <strong>30</strong> remaining votes. Please use your
-              votes wisely.
+              You have <strong>{remainingVotes}</strong> remaining votes. Please
+              use your votes wisely.
             </DialogDescription>
           </DialogHeader>
           <ContestantVideo url={contestant.video} name={contestant.name} />
-          <VotingForm contestant={contestant} />
+          <VotingForm contestant={contestant} remainingVotes={remainingVotes} />
         </DialogContent>
       </Dialog>
     );
@@ -116,14 +132,18 @@ export function VotingDialog({ contestant }: { contestant: Contestant }) {
         <DrawerHeader className="text-left">
           <DrawerTitle>Vote for {contestant.name}</DrawerTitle>
           <DrawerDescription>
-            You have <strong>30</strong> remaining votes. Please use your votes
-            wisely.
+            You have <strong>{remainingVotes}</strong> remaining votes. Please
+            use your votes wisely.
           </DrawerDescription>
         </DrawerHeader>
         <div className="px-4 pb-4">
           <ContestantVideo url={contestant.video} name={contestant.name} />
         </div>
-        <VotingForm className="px-4" contestant={contestant} />
+        <VotingForm
+          className="px-4"
+          contestant={contestant}
+          remainingVotes={remainingVotes}
+        />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -137,17 +157,54 @@ export function VotingDialog({ contestant }: { contestant: Contestant }) {
 function VotingForm({
   className,
   contestant,
-}: React.ComponentProps<"form"> & { contestant: Contestant }) {
+  remainingVotes,
+}: React.ComponentProps<"form"> & {
+  contestant: Contestant;
+  remainingVotes: number;
+}) {
   const labelId = `${contestant.name.split(" ").join("-")}`;
 
+  const [_, startTransition] = useTransition();
+
+  async function handleVoteContestant(formData: FormData) {
+    if (remainingVotes === 0)
+      return toast.error(
+        "You don't have any votes left now. Thanks for voting!"
+      );
+
+    startTransition(async () => {
+      const response = await voteContestant(formData);
+      if (response.message) toast.success(response.message);
+      if (response.error) toast.error(response.error);
+    });
+  }
+
   return (
-    <form className={cn("grid items-start gap-4", className)}>
+    <form
+      className={cn("grid items-start gap-4", className)}
+      action={handleVoteContestant}
+    >
       <div className="grid gap-2">
         <Label htmlFor={labelId}>No. of Votes</Label>
-        <Input type="number" id={labelId} defaultValue="30" required />
+        <Input
+          type="number"
+          id={labelId}
+          defaultValue={remainingVotes}
+          key={remainingVotes}
+          max={remainingVotes}
+          name="votes"
+          required
+        />
       </div>
-
-      <Button type="submit">Vote</Button>
+      <input type="hidden" value={contestant.id} name="contestant" />
+      <div className="grid grid-cols-2 gap-2">
+        <Button type="submit">Vote</Button>
+        <Button asChild variant="secondary">
+          <Link href={contestant.video} target="_blank">
+            Watch on YouTube
+          </Link>
+        </Button>
+      </div>
     </form>
   );
 }

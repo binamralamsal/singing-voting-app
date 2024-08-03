@@ -41,11 +41,13 @@ export function MarkForVoting({
   name,
   id,
   photo,
+  isContestant,
   videoLink,
 }: {
   photo: string;
   name: string;
   id: string;
+  isContestant: boolean;
   videoLink: string;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -73,7 +75,7 @@ export function MarkForVoting({
       <Dialog>
         <DialogTrigger asChild>
           <Button size="sm" variant="outline">
-            Mark for Voting
+            {isContestant ? "Edit Contestant Details" : "Mark for Voting"}
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -102,7 +104,7 @@ export function MarkForVoting({
               />
               <div className="flex gap-2">
                 <Button type="submit" className="w-full">
-                  Save
+                  Mark for Voting / Save
                 </Button>
                 <Dialog
                   open={isUnmarkDialogOpened}

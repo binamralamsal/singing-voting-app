@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { getLoggedInUserDetail } from "@/services/person/get-current-person";
 import Image from "next/image";
+import dbConnect from "@/lib/db-connect";
+import { Person } from "@/models/person";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -265,7 +267,7 @@ export default async function Home() {
                     <form
                       action={async () => {
                         "use server";
-                        await signIn("google", { redirectTo: "/profile" });
+                        await signIn("google", { redirectTo: "/vote" });
                       }}
                       className={cn("flex-1 md:flex-initial")}
                     >
@@ -274,7 +276,6 @@ export default async function Home() {
                         variant="outline"
                         className="flex gap-1 w-full md:w-auto"
                         type="submit"
-                        disabled
                       >
                         <GoogleLogo className="h-5 w-5" /> Sign in with Google
                       </Button>
