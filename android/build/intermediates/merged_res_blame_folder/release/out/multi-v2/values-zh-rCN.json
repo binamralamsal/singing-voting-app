@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/binamra/singing-voting-app/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-zh-rCN/values-zh-rCN.xml",
+            "outputFile": "/mnt/c/Users/ASUS/Documents/projects/singing-voting-app/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-zh-rCN/values-zh-rCN.xml",
             "map": [
                 {
                     "source": "/home/binamra/.gradle/caches/transforms-2/files-2.1/b76183546e9802347e4b2c9dd5e9649b/browser-1.4.0/res/values-zh-rCN/values-zh-rCN.xml",

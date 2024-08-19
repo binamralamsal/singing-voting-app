@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/binamra/singing-voting-app/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-hu/values-hu.xml",
+            "outputFile": "/mnt/c/Users/ASUS/Documents/projects/singing-voting-app/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-hu/values-hu.xml",
             "map": [
                 {
                     "source": "/home/binamra/.gradle/caches/transforms-2/files-2.1/e601daed4ba62929db8b322b2974c8f8/core-1.1.0/res/values-hu/values-hu.xml",

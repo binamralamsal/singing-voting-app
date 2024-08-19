@@ -49,11 +49,14 @@ export default async function Home() {
           <p className="text-lg font-light mt-2">
             Sing Your Heart Out and Shine with Your Musical Talent!
           </p>
-          <Button asChild className="mt-6 inline-block" variant="secondary">
+          <Button
+            asChild
+            className="mt-6 inline-block"
+            variant="secondary"
+            size="lg"
+          >
             {session?.user ? (
-              <Button>
-                <Link href="/vote">Vote your favorite contestants</Link>
-              </Button>
+              <Link href="/vote">Vote your favorite contestants</Link>
             ) : (
               <Link href="/#register">Register for voting</Link>
             )}
@@ -61,7 +64,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4" id="about">
+      {/* <section className="py-20 px-4" id="about">
         <div className="mx-auto max-w-4xl space-y-8">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold">
@@ -94,9 +97,9 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="py-20 px-4" id="timeline">
+      {/* <section className="py-20 px-4" id="timeline">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold">Timeline</h2>
@@ -196,7 +199,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/*
       <section className="bg-gray-100 py-20 px-4" id="prizes">
@@ -309,7 +312,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <section className="bg-gray-100 py-20 px-4" id="faq">
+      {/* <section className="bg-gray-100 py-20 px-4" id="faq">
         <div className="mx-auto max-w-4xl space-y-4">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold">
@@ -424,7 +427,7 @@ export default async function Home() {
             </AccordionItem>
           </Accordion>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

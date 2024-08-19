@@ -10,24 +10,24 @@ export function SiteFooter() {
           <span className="text-xl font-bold">CAC 3.0</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link
+          {/* <Link
             className="text-gray-400 hover:text-white transition-colors"
             href="/#about"
           >
             About
-          </Link>
+          </Link> */}
           <Link
             className="text-gray-400 hover:text-white transition-colors"
             href="/#register"
           >
             Register
           </Link>
-          <Link
+          {/* <Link
             className="text-gray-400 hover:text-white transition-colors"
             href="/#faq"
           >
             FAQ
-          </Link>
+          </Link> */}
           <Link
             className="text-gray-400 hover:text-white transition-colors"
             href="/privacy-policy"
