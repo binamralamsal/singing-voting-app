@@ -49,12 +49,7 @@ export default async function Home() {
           <p className="text-lg font-light mt-2">
             Sing Your Heart Out and Shine with Your Musical Talent!
           </p>
-          <Button
-            asChild
-            className="mt-6 inline-block"
-            variant="secondary"
-            size="lg"
-          >
+          <Button asChild className="mt-6" variant="secondary" size="lg">
             {session?.user ? (
               <Link href="/vote">Vote your favorite contestants</Link>
             ) : (
