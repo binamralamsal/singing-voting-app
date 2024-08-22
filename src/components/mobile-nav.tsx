@@ -72,14 +72,6 @@ export function MobileNav() {
                 {link.label}
               </MobileLink>
             ))}
-            <MobileLink
-              href="/app.apk"
-              target="_blank"
-              download
-              onOpenChange={setOpen}
-            >
-              Download App
-            </MobileLink>
           </div>
         </SheetContent>
       </Sheet>
