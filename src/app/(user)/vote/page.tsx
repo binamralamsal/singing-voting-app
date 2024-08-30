@@ -12,13 +12,15 @@ export default async function VotePage() {
   const dbContestants = await Person.find({ isContestant: true }).select(
     "personId fullName photo videoLink _id"
   );
-  const contestants = dbContestants.map((c) => ({
-    name: c.fullName,
-    image: c.photo,
-    video: c.videoLink,
-    code: c.getParticipantId(),
-    id: c._id.toString(),
-  }));
+  const contestants = dbContestants
+    .map((c) => ({
+      name: c.fullName,
+      image: c.photo,
+      video: c.videoLink,
+      code: c.getParticipantId(),
+      id: c._id.toString(),
+    }))
+    .sort(() => Math.random() - 0.5);
 
   const { user } = await getLoggedInUserDetail();
   if (!user) return redirect("/");
