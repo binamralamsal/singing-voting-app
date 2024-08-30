@@ -91,6 +91,9 @@ function ContestantsTable(props: {
               <TableHead>Email</TableHead>
               <TableHead className="hidden md:table-cell">Video</TableHead>
               <TableHead className="hidden md:table-cell">Votes</TableHead>
+              <TableHead className="hidden md:table-cell">
+                Unique Voters
+              </TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
               </TableHead>
@@ -138,6 +141,7 @@ function ContestantsTable(props: {
                 <TableCell>
                   {participant.votes.reduce((a, b) => a + b.votes, 0)}
                 </TableCell>
+                <TableCell>{participant.votes.length}</TableCell>
                 {participant.status === "selected" && (
                   <TableCell>
                     <MarkForVoting
