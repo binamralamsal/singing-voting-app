@@ -64,7 +64,7 @@ export function ContestantCard({
         height={200}
         width={200}
         alt="Image"
-        className="w-full max-h-[250px] object-cover"
+        className="w-full aspect-video object-cover"
       ></Image>
       <CardContent className="pt-4">
         <CardTitle>{contestant.name}</CardTitle>
@@ -81,7 +81,7 @@ export function ContestantCard({
 
 function ContestantVideo({ url, name }: { url: string; name: string }) {
   return (
-    <MediaPlayer title={`${name}'s Singing Video`} src={url}>
+    <MediaPlayer title={`${name}'s Singing Video`} src={url} autoPlay>
       <MediaProvider />
       <DefaultVideoLayout icons={defaultLayoutIcons} />
     </MediaPlayer>
