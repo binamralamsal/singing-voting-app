@@ -51,7 +51,7 @@ export default async function Home() {
           </p>
           <Button asChild className="mt-6" variant="secondary" size="lg">
             {session?.user ? (
-              <Link href="/vote">Vote your favorite contestants</Link>
+              <Link href="/vote">Vote your favorite Challengers</Link>
             ) : (
               <Link href="/#register">Register for voting</Link>
             )}
@@ -86,7 +86,7 @@ export default async function Home() {
               <p className="text-gray-600 mt-4">
                 To participate in the Cosmo Acoustic Challenge, challengers must
                 sing Nepali songs and can be accompanied by a guitar, ukulele,
-                or keyboard. The instrument player can be either the contestant
+                or keyboard. The instrument player can be either the Challengers
                 or a friend.
               </p>
             </div>
@@ -256,7 +256,7 @@ export default async function Home() {
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
-                  You can now vote for your favorite contestants.
+                  You can now vote for your favorite Challengers.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
@@ -298,7 +298,7 @@ export default async function Home() {
                   </>
                 ) : (
                   <Button asChild>
-                    <Link href="/vote">Vote your contestants</Link>
+                    <Link href="/vote">Vote your Challengers</Link>
                   </Button>
                 )}
               </div>
