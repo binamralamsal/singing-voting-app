@@ -200,6 +200,10 @@ export async function voteContestant(formData: FormData) {
     user._id.toString()
   );
 
+  if (votes < 1) {
+    return { error: "You can't vote less than 1" };
+  }
+
   if (votes > remainingNumberOfVotes)
     return { error: `You only have ${remainingNumberOfVotes} votes left!` };
 
