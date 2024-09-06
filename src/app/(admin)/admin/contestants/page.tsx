@@ -47,7 +47,9 @@ export default async function ContestantsPage() {
   if (!currentPerson || !allowedRoles.includes(currentPerson.role))
     return redirect("/");
 
-  const contestants = await Person.find({ isContestant: true });
+  const contestants = (await Person.find({ isContestant: true })).sort(
+    (a, b) => b.votes.length - a.votes.length
+  );
 
   return (
     <>
