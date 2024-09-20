@@ -29,7 +29,7 @@ export default async function Home() {
       $sort: { totalVotes: -1 }, // Sort by total votes in descending order
     },
     {
-      $limit: 3, // Limit to top 3 contestants
+      $limit: 1, // Limit to top 3 contestants
     },
     {
       $addFields: {
@@ -290,13 +290,13 @@ export default async function Home() {
             <div className="max-w-2xl text-center mx-auto">
               <div className="mt-5 max-w-2xl">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Congratulations to Winners
+                  Congratulations to Winner
                 </h1>
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
                   Thanks to everyone who participated in the Cosmo Acoustic
-                  Challenge 3.0. We are thrilled to announce the winners.
+                  Challenge 3.0. We are thrilled to announce the winner.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">

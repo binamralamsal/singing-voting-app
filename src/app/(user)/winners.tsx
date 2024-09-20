@@ -90,19 +90,11 @@ export function Winners({ cards }: { cards: Card[] }) {
         recycle={false}
         numberOfPieces={500}
       />
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 lg:grid-rows-1">
+      <div className="flex justify-center items-center">
         {cards.map((card) => (
           <div
             key={card.id}
-            className={`rounded-lg shadow-2xl ${
-              card.place === 1
-                ? "border-4 border-yellow-500 lg:col-span-1 lg:order-2  md:col-span-2 md:order-1 order-1"
-                : card.place === 2
-                ? "md:order-2 order-2 lg:order-1"
-                : card.place === 3
-                ? "md:order-3 order-3 lg:order-3"
-                : ""
-            } ${card.place !== 1 ? "lg:translate-y-14" : ""}`}
+            className={`rounded-lg shadow-2xl border-4 border-yellow-500 max-w-[400px] w-full`}
           >
             <div className="relative h-full bg-white rounded-t-lg overflow-hidden flex flex-col">
               <div className="relative">
