@@ -16,53 +16,51 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   await dbConnect();
 
-  const topContestants = await Person.aggregate([
-    {
-      $match: { isContestant: true }, // Find only contestants
-    },
-    {
-      $addFields: {
-        totalVotes: { $sum: "$votes.votes" }, // Calculate total votes for each contestant
-      },
-    },
-    {
-      $sort: { totalVotes: -1 }, // Sort by total votes in descending order
-    },
-    {
-      $limit: 1, // Limit to top 3 contestants
-    },
-    {
-      $addFields: {
-        place: { $literal: 0 }, // Initialize 'place' (will be calculated later)
-      },
-    },
-    {
-      $setWindowFields: {
-        sortBy: { totalVotes: -1 }, // Ensure sorting for window function
-        output: {
-          place: {
-            $rank: {}, // Assign rank based on total votes
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        id: { $toString: "$_id" }, // Map to the output format
-        name: "$fullName",
-        image: "$photo",
-        contestantCode: {
-          $concat: ["CAC_", { $toString: { $add: ["$personId", 800] } }],
-        }, // Increment personId by 800 for contestant code
-        votes: "$totalVotes",
-        videoLink: "$videoLink",
-        place: 1, // Keep place
-        _id: 0, // Exclude _id from the output
-      },
-    },
-  ]);
-
-  console.log(topContestants);
+  // const topContestants = await Person.aggregate([
+  //   {
+  //     $match: { isContestant: true }, // Find only contestants
+  //   },
+  //   {
+  //     $addFields: {
+  //       totalVotes: { $sum: "$votes.votes" }, // Calculate total votes for each contestant
+  //     },
+  //   },
+  //   {
+  //     $sort: { totalVotes: -1 }, // Sort by total votes in descending order
+  //   },
+  //   {
+  //     $limit: 1, // Limit to top 3 contestants
+  //   },
+  //   {
+  //     $addFields: {
+  //       place: { $literal: 0 }, // Initialize 'place' (will be calculated later)
+  //     },
+  //   },
+  //   {
+  //     $setWindowFields: {
+  //       sortBy: { totalVotes: -1 }, // Ensure sorting for window function
+  //       output: {
+  //         place: {
+  //           $rank: {}, // Assign rank based on total votes
+  //         },
+  //       },
+  //     },
+  //   },
+  //   {
+  //     $project: {
+  //       id: { $toString: "$_id" }, // Map to the output format
+  //       name: "$fullName",
+  //       image: "$photo",
+  //       contestantCode: {
+  //         $concat: ["CAC_", { $toString: { $add: ["$personId", 800] } }],
+  //       }, // Increment personId by 800 for contestant code
+  //       votes: "$totalVotes",
+  //       videoLink: "$videoLink",
+  //       place: 1, // Keep place
+  //       _id: 0, // Exclude _id from the output
+  //     },
+  //   },
+  // ]);
 
   return (
     <>
@@ -290,13 +288,13 @@ export default async function Home() {
             <div className="max-w-2xl text-center mx-auto">
               <div className="mt-5 max-w-2xl">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Congratulations to Winner
+                  Votings has closed!
                 </h1>
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
                   Thanks to everyone who participated in the Cosmo Acoustic
-                  Challenge 3.0. We are thrilled to announce the winner.
+                  Challenge 3.0. We will announce winners tomorrow.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
@@ -343,7 +341,7 @@ export default async function Home() {
                 )} */}
               </div>
             </div>
-            <Winners cards={topContestants} />
+            {/* <Winners cards={topContestants} /> */}
           </div>
         </div>
       </div>
