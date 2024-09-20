@@ -1,21 +1,11 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { GoogleLogo } from "@/components/google-logo";
-import { auth, signIn } from "@/lib/auth";
-import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
-import { getLoggedInUserDetail } from "@/services/person/get-current-person";
 import Image from "next/image";
 import dbConnect from "@/lib/db-connect";
 import { Person } from "@/models/person";
+import { Winners } from "./winners";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -24,7 +14,55 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { session, user } = await getLoggedInUserDetail();
+  await dbConnect();
+
+  const topContestants = await Person.aggregate([
+    {
+      $match: { isContestant: true }, // Find only contestants
+    },
+    {
+      $addFields: {
+        totalVotes: { $sum: "$votes.votes" }, // Calculate total votes for each contestant
+      },
+    },
+    {
+      $sort: { totalVotes: -1 }, // Sort by total votes in descending order
+    },
+    {
+      $limit: 3, // Limit to top 3 contestants
+    },
+    {
+      $addFields: {
+        place: { $literal: 0 }, // Initialize 'place' (will be calculated later)
+      },
+    },
+    {
+      $setWindowFields: {
+        sortBy: { totalVotes: -1 }, // Ensure sorting for window function
+        output: {
+          place: {
+            $rank: {}, // Assign rank based on total votes
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        id: { $toString: "$_id" }, // Map to the output format
+        name: "$fullName",
+        image: "$photo",
+        contestantCode: {
+          $concat: ["CAC_", { $toString: { $add: ["$personId", 800] } }],
+        }, // Increment personId by 800 for contestant code
+        votes: "$totalVotes",
+        videoLink: "$videoLink",
+        place: 1, // Keep place
+        _id: 0, // Exclude _id from the output
+      },
+    },
+  ]);
+
+  console.log(topContestants);
 
   return (
     <>
@@ -50,11 +88,12 @@ export default async function Home() {
             Sing Your Heart Out and Shine with Your Musical Talent!
           </p>
           <Button asChild className="mt-6" variant="secondary" size="lg">
-            {session?.user ? (
+            {/* {session?.user ? (
               <Link href="/vote">Vote your favorite Challengers</Link>
             ) : (
               <Link href="/#register">Register for voting</Link>
-            )}
+            )} */}
+            <Link href="/#results">View Results</Link>
           </Button>
         </div>
       </section>
@@ -245,22 +284,23 @@ export default async function Home() {
       </section>
          */}
 
-      <div className="py-12" id="register">
+      <div className="py-12" id="results">
         <div className="relative z-10">
           <div className="container py-10 lg:py-16">
             <div className="max-w-2xl text-center mx-auto">
               <div className="mt-5 max-w-2xl">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Register for Voting
+                  Congratulations to Winners
                 </h1>
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
-                  You can now vote for your favorite Challengers.
+                  Thanks to everyone who participated in the Cosmo Acoustic
+                  Challenge 3.0. We are thrilled to announce the winners.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
-                {!session?.user ? (
+                {/* {!session?.user ? (
                   <>
                     <form
                       action={async () => {
@@ -279,7 +319,7 @@ export default async function Home() {
                       </Button>
                     </form>
 
-                    {/* <form
+                    <form
                       action={async () => {
                         "use server";
                         await signIn("facebook");
@@ -294,15 +334,16 @@ export default async function Home() {
                         <FacebookLogo className="h-5 w-5" />
                         Register with Facebook
                       </Button>
-                    </form> */}
+                    </form>
                   </>
                 ) : (
                   <Button asChild>
                     <Link href="/vote">Vote your Challengers</Link>
                   </Button>
-                )}
+                )} */}
               </div>
             </div>
+            <Winners cards={topContestants} />
           </div>
         </div>
       </div>

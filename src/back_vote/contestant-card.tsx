@@ -79,7 +79,7 @@ export function ContestantCard({
   );
 }
 
-function ContestantVideo({ url, name }: { url: string; name: string }) {
+export function ContestantVideo({ url, name }: { url: string; name: string }) {
   return (
     <MediaPlayer title={`${name}'s Singing Video`} src={url} autoPlay>
       <MediaProvider />

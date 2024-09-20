@@ -36,11 +36,6 @@ export function UserAccountDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem asChild>
-          <Link href="/vote">Vote Contestants</Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-
         <form
           action={async () => {
             "use server";

@@ -1,6 +1,5 @@
 export const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/vote", label: "Vote" },
   { href: "/terms-and-conditions", label: "Rules" },
 ];
 
