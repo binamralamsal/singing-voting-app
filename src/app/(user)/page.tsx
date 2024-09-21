@@ -14,8 +14,6 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  await dbConnect();
-
   // const topContestants = await Person.aggregate([
   //   {
   //     $match: { isContestant: true }, // Find only contestants
@@ -288,13 +286,13 @@ export default async function Home() {
             <div className="max-w-2xl text-center mx-auto">
               <div className="mt-5 max-w-2xl">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Votings has closed!
+                  Congratulations to the Winners!
                 </h1>
               </div>
               <div className="mt-5 max-w-3xl">
                 <p className="text-xl text-gray-600">
                   Thanks to everyone who participated in the Cosmo Acoustic
-                  Challenge 3.0. We will announce winners tomorrow.
+                  Challenge 3.0. We are thrilled to announce the winners.
                 </p>
               </div>
               <div className="mt-8 gap-3 flex flex-wrap justify-center">
@@ -341,7 +339,7 @@ export default async function Home() {
                 )} */}
               </div>
             </div>
-            {/* <Winners cards={topContestants} /> */}
+            <Winners />
           </div>
         </div>
       </div>

@@ -31,40 +31,42 @@ type Card = {
   id: number;
   name: string;
   image: string;
-  place: number;
   contestantCode: string;
-  votes: number;
-  videoLink: string;
+  achievement: string;
 };
 
 const cards = [
   {
     id: 1,
-    name: "Jane Smith",
-    image: "/placeholder.svg?height=360&width=640",
-    place: 2,
-    contestantCode: "JS2023",
-    votes: 1250,
+    name: "Aakanchya Shrestha	",
+    image: "/aakansha.png",
+    contestantCode: "CAC_910",
+    achievement: "17,731	Votes - Most Voted",
   },
   {
     id: 2,
-    name: "John Doe",
-    image: "/placeholder.svg?height=360&width=640",
-    place: 1,
-    contestantCode: "JD2023",
-    votes: 1500,
+    name: "Allam Aadesh	",
+    image: "/allam.png",
+    contestantCode: "CAC_845",
+    achievement: "The Editor's Choice",
   },
   {
     id: 3,
-    name: "Alice Johnson",
-    image: "/placeholder.svg?height=360&width=640",
-    place: 3,
-    contestantCode: "AJ2023",
-    votes: 1000,
+    name: "Jaisha Maharjan",
+    image: "/jaisa.png",
+    contestantCode: "CAC_895",
+    achievement: "Most Liked on YouTube",
+  },
+  {
+    id: 4,
+    name: "Sweta Paudel	",
+    image: "/sweta.png",
+    contestantCode: "CAC_867",
+    achievement: "Most Viewed",
   },
 ];
 
-export function Winners({ cards }: { cards: Card[] }) {
+export function Winners() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -83,40 +85,28 @@ export function Winners({ cards }: { cards: Card[] }) {
   }, []);
 
   return (
-    <div className="max-w-6xl m-auto">
+    <div className="container">
       <Confetti
         width={windowSize.width}
         height={windowSize.height}
         recycle={false}
         numberOfPieces={500}
       />
-      <div className="flex justify-center items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-1 justify-center items-center">
         {cards.map((card) => (
           <div
             key={card.id}
-            className={`rounded-lg shadow-2xl border-4 border-yellow-500 max-w-[400px] w-full`}
+            className={`rounded-lg shadow-2xl border-2 border-yellow-500 w-full`}
           >
-            <div className="relative h-full bg-white rounded-t-lg overflow-hidden flex flex-col">
+            <div className="relative h-full bg-white rounded-lg overflow-hidden flex flex-col">
               <div className="relative">
                 <Image
                   src={card.image}
-                  width={400}
-                  height={200}
+                  width={600}
+                  height={400}
                   alt={`${card.name}`}
-                  className="w-full aspect-video object-cover"
+                  className="w-full aspect-square object-cover"
                 />
-                <span
-                  className={`absolute top-2 left-2 inline-block py-1 px-3 ${
-                    card.place === 1
-                      ? "bg-yellow-500"
-                      : card.place === 2
-                      ? "bg-gray-400"
-                      : "bg-amber-600"
-                  } text-white rounded-full text-sm font-bold`}
-                >
-                  {card.place === 1 ? "1st" : card.place === 2 ? "2nd" : "3rd"}{" "}
-                  Place
-                </span>
               </div>
               <div className="p-4 flex-grow flex flex-col justify-between">
                 <div>
@@ -125,75 +115,14 @@ export function Winners({ cards }: { cards: Card[] }) {
                     Contestant Code: {card.contestantCode}
                   </p>
                   <p className="text-sm font-semibold text-blue-600 mb-4">
-                    {card.votes.toLocaleString()} votes
+                    {card.achievement}
                   </p>
                 </div>
-                <VideoDialog contestant={card} />
               </div>
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
-}
-
-export function VideoDialog({ contestant }: { contestant: Card }) {
-  const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline" className="w-full">
-            Watch {contestant.name}&apos;s Video
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{contestant.name}&apos;s Video</DialogTitle>
-          </DialogHeader>
-          <ContestantVideo url={contestant.videoLink} name={contestant.name} />
-          <DialogFooter>
-            <Button className="w-full">
-              <Link href={contestant.videoLink} target="_blank">
-                Watch on YouTube
-              </Link>
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <Button variant="outline" className="w-full">
-          Watch {contestant.name}&apos;s Video
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>{contestant.name}&apos;s Video</DrawerTitle>
-        </DrawerHeader>
-        <div className="px-4 pb-4">
-          <ContestantVideo url={contestant.videoLink} name={contestant.name} />
-        </div>
-        <DrawerFooter className="pt-2">
-          <div className="grid grid-cols-2 gap-2">
-            <Button className="w-full">
-              <Link href={contestant.videoLink} target="_blank">
-                Watch on YouTube
-              </Link>
-            </Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </div>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
   );
 }
